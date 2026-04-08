@@ -2,10 +2,9 @@
 	import { Mail, MapPin } from 'lucide-svelte';
 	import githubIcon from '$lib/assets/GitHub_White.svg';
 	import linkedinIcon from '$lib/assets/Linkedin_White.svg';
+	import type { Bio, Contact } from '$lib/data/content';
 
 	const blueskyIcon = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Bluesky_Logo_White.svg';
-
-	import type { Bio, Contact } from '$lib/data/content';
 
 	const {
 		bio,
@@ -17,7 +16,7 @@
 </script>
 
 <section class="header">
-	<div class="content">
+	<div class="content-shell header-content">
 		<div class="bio">
 			<h1>{bio.forename} {bio.surname}</h1>
 			<p class="role">{bio.role}</p>
@@ -31,7 +30,7 @@
 				<a
 					href={contact.github}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="GitHub"
 					class="social-button"
 				>
@@ -41,7 +40,7 @@
 				<a
 					href={contact.linkedin}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="LinkedIn"
 					class="social-button"
 				>
@@ -51,7 +50,7 @@
 				<a
 					href={contact.bluesky}
 					target="_blank"
-					rel="noopener noreferrer"
+					rel="external noopener noreferrer"
 					aria-label="Bluesky"
 					class="social-button"
 				>
@@ -59,7 +58,7 @@
 				</a>
 
 				<a href={`mailto:${contact.email}`} aria-label="Email" class="social-button">
-					<Mail size={24} strokeWidth={2} />
+					<Mail strokeWidth={2} />
 				</a>
 			</div>
 		</div>
@@ -73,11 +72,8 @@
 		color: #fff;
 	}
 
-	.content {
-		max-width: 1000px;
-		margin: 0 auto;
-		padding: 3.5rem 2rem 0 2rem;
-		box-sizing: border-box;
+	.header-content {
+		padding-top: 3.5rem;
 	}
 
 	.bio {
@@ -126,33 +122,41 @@
 	}
 
 	.social-button {
-		width: 3rem;
-		height: 3rem;
+		--social-button-size: 3rem;
+		--social-icon-size: calc(var(--social-button-size) * 0.42);
+		inline-size: var(--social-button-size);
+		block-size: var(--social-button-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: 1px solid #222;
 		border-radius: 0.85rem;
-		background: transparent;
+		opacity: 0.6;
 		color: #d4d4d4;
 		text-decoration: none;
 		box-sizing: border-box;
 		transition:
-			border-color 0.2s ease,
-			color 0.2s ease,
-			background-color 0.2s ease;
+			border-color 0.4s ease,
+			color 0.4s ease,
+			background-color 0.4s ease;
 	}
 
 	.social-button:hover {
 		border-color: #3a3a3a;
 		color: #ffffff;
 		background: #0a0a0a;
+		opacity: 1;
+	}
+
+	.social-button :global(svg),
+	.brand-icon {
+		inline-size: var(--social-icon-size);
+		block-size: var(--social-icon-size);
+		display: block;
+		flex-shrink: 0;
 	}
 
 	.brand-icon {
-		width: 20px;
-		height: 20px;
-		display: block;
 		object-fit: contain;
 		opacity: 0.8;
 	}
