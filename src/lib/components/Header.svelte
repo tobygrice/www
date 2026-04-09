@@ -25,22 +25,23 @@
 
 <section class="header">
 	<div class="content-shell header-content">
-		<button
-			type="button"
-			class="theme-toggle"
-			aria-label={themeButtonLabel}
-			title={themeButtonLabel}
-			onclick={onToggleTheme}
-		>
-			{#if theme === 'dark'}
-				<Sun strokeWidth={2} />
-			{:else}
-				<Moon strokeWidth={2} />
-			{/if}
-		</button>
-
 		<div class="bio">
-			<h1>{bio.forename} {bio.surname}</h1>
+			<div class="name-row">
+				<h1>{bio.forename} {bio.surname}</h1>
+				<button
+					type="button"
+					class="theme-toggle"
+					aria-label={themeButtonLabel}
+					title={themeButtonLabel}
+					onclick={onToggleTheme}
+				>
+					{#if theme === 'dark'}
+						<Sun strokeWidth={2} />
+					{:else}
+						<Moon strokeWidth={2} />
+					{/if}
+				</button>
+			</div>
 			<p class="role">{bio.role}</p>
 			{#if bio.introduction}
 				<p class="introduction">{bio.introduction}</p>
@@ -105,67 +106,46 @@
 	}
 
 	.header-content {
-		position: relative;
 		padding-top: var(--header-content-top);
 	}
 
+	.name-row {
+		inline-size: 100%;
+		display: flex;
+		align-items: flex-start;
+		gap: clamp(0.75rem, 2vw, 1.25rem);
+	}
+
 	.theme-toggle {
-		--theme-button-size: 3.3em;
+		--theme-button-size: clamp(
+			calc(var(--font-size-base) * 2.3),
+			calc(var(--font-size-base) * 2.3 + max(0px, (100vw - 48rem) * 0.03)),
+			calc(var(--heading-size) * 1.05)
+		);
 		--theme-icon-size: calc(var(--theme-button-size) * 0.45);
-		position: absolute;
-		top: 0;
-		right: 0;
 		inline-size: var(--theme-button-size);
 		block-size: var(--theme-button-size);
+		margin-inline-start: auto;
+		flex-shrink: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 0;
+		border: 1px solid var(--theme-fg);
 		border-radius: calc(var(--theme-button-size) * 0.3);
-		background: transparent;
-		color: inherit;
-		opacity: 0.6;
+		background: var(--theme-fg);
+		color: var(--theme-bg);
+		opacity: 0.88;
 		cursor: pointer;
-		overflow: hidden;
 		box-sizing: border-box;
 		transition: opacity 180ms ease;
 	}
 
-	.theme-toggle::before,
-	.theme-toggle::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
-		pointer-events: none;
-	}
-
-	.theme-toggle::before {
-		border: 1px solid currentColor;
-		opacity: 0.26;
-		transition: opacity 180ms ease;
-	}
-
-	.theme-toggle::after {
-		background: currentColor;
-		opacity: 0;
-		transition: opacity 180ms ease;
-	}
-
 	.theme-toggle:hover {
-		opacity: 0.9;
-	}
-
-	.theme-toggle:hover::before {
-		opacity: 0.4;
-	}
-
-	.theme-toggle:hover::after {
-		opacity: 0.06;
+		opacity: 1;
 	}
 
 	.theme-toggle:focus-visible {
-		outline: 2px solid currentColor;
+		outline: 2px solid var(--theme-fg);
 		outline-offset: 2px;
 		opacity: 1;
 	}
@@ -185,6 +165,8 @@
 
 	h1 {
 		margin: 0;
+		flex: 1 1 auto;
+		min-inline-size: 0;
 		font-size: var(--heading-size);
 		line-height: 1.05;
 		font-weight: 600;
