@@ -38,9 +38,7 @@
 
 	a {
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.8);
-		text-decoration-thickness: 0.08em;
-		text-underline-offset: 0.16em;
-		transition: color 180ms ease;
+		transition: color 200ms ease;
 	}
 
 	a:hover {
