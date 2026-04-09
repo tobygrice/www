@@ -22,7 +22,7 @@
 			<p class="role">{bio.role}</p>
 
 			<div class="location-row">
-				<MapPin size={18} strokeWidth={2} color="#8a8a8a" />
+				<MapPin strokeWidth={2} color="#8a8a8a" />
 				<p class="location">{bio.location}</p>
 			</div>
 
@@ -67,13 +67,18 @@
 
 <style>
 	.header {
+		--header-offset-top: clamp(2.5rem, 7vh, 5rem);
+		--header-content-top: clamp(1.5rem, 4.5vh, 3.5rem);
+		--role-size: clamp(1.1rem, 1.2vw, 1.4rem);
+		--location-size: clamp(0.95rem, 1vw, 1.1rem);
+		--social-size: clamp(0.9rem, 1vw, 1.1rem);
 		min-height: 100vh;
-		margin-top: 5rem;
+		margin-top: var(--header-offset-top);
 		color: #fff;
 	}
 
 	.header-content {
-		padding-top: 3.5rem;
+		padding-top: var(--header-content-top);
 	}
 
 	.bio {
@@ -84,7 +89,7 @@
 
 	h1 {
 		margin: 0;
-		font-size: clamp(2rem, 3.2vw, 3rem);
+		font-size: clamp(2rem, 3vw, 2.8rem);
 		line-height: 1.05;
 		font-weight: 600;
 		letter-spacing: -0.04em;
@@ -92,8 +97,8 @@
 	}
 
 	.role {
-		margin: 1rem 0 0 0;
-		font-size: clamp(1rem, 1vw, 2rem);
+		margin-top: 0.6em;
+		font-size: var(--role-size);
 		line-height: 1.2;
 		font-weight: 400;
 		color: #9f9f9f;
@@ -102,13 +107,20 @@
 	.location-row {
 		display: flex;
 		align-items: center;
-		gap: 0.55rem;
-		margin-top: 1rem;
+		gap: 0.55em;
+		margin-top: 0.8em;
+		font-size: var(--location-size);
+	}
+
+	.location-row :global(svg) {
+		inline-size: 1em;
+		block-size: 1em;
+		flex-shrink: 0;
 	}
 
 	.location {
 		margin: 0;
-		font-size: 1rem;
+		font-size: 1em;
 		line-height: 1.4;
 		font-weight: 400;
 		color: #8a8a8a;
@@ -117,20 +129,21 @@
 	.socials {
 		display: flex;
 		flex-direction: row;
-		gap: 0.75rem;
-		margin-top: 1.25rem;
+		gap: 0.75em;
+		margin-top: 1.25em;
+		font-size: var(--social-size);
 	}
 
 	.social-button {
-		--social-button-size: 3rem;
-		--social-icon-size: calc(var(--social-button-size) * 0.42);
+		--social-button-size: 2.75em;
+		--social-icon-size: calc(var(--social-button-size) * 0.4);
 		inline-size: var(--social-button-size);
 		block-size: var(--social-button-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: 1px solid #222;
-		border-radius: 0.85rem;
+		border-radius: calc(var(--social-button-size) * 0.3);
 		opacity: 0.6;
 		color: #d4d4d4;
 		text-decoration: none;
