@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Mail, MapPin } from 'lucide-svelte';
+	import { Mail, MapPin, Moon, Sun } from 'lucide-svelte';
 	import githubIcon from '$lib/assets/GitHub_White.svg';
 	import linkedinIcon from '$lib/assets/Linkedin_White.svg';
 	import type { Bio, Contact } from '$lib/data/content';
@@ -8,21 +8,46 @@
 
 	const {
 		bio,
-		contact
+		contact,
+		theme,
+		onToggleTheme
 	}: {
 		bio: Bio;
 		contact: Contact;
+		theme: 'dark' | 'light';
+		onToggleTheme: () => void;
 	} = $props();
+
+	const themeButtonLabel = $derived(
+		theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'
+	);
 </script>
 
 <section class="header">
 	<div class="content-shell header-content">
+		<button
+			type="button"
+			class="theme-toggle"
+			aria-label={themeButtonLabel}
+			title={themeButtonLabel}
+			onclick={onToggleTheme}
+		>
+			{#if theme === 'dark'}
+				<Sun strokeWidth={2} />
+			{:else}
+				<Moon strokeWidth={2} />
+			{/if}
+		</button>
+
 		<div class="bio">
 			<h1>{bio.forename} {bio.surname}</h1>
 			<p class="role">{bio.role}</p>
+			{#if bio.introduction}
+				<p class="introduction">{bio.introduction}</p>
+			{/if}
 
 			<div class="location-row">
-				<MapPin strokeWidth={2} color="#8a8a8a" />
+				<MapPin strokeWidth={2} />
 				<p class="location">{bio.location}</p>
 			</div>
 
@@ -69,16 +94,87 @@
 	.header {
 		--header-offset-top: clamp(2.5rem, 7vh, 5rem);
 		--header-content-top: clamp(1.5rem, 4.5vh, 3.5rem);
-		--role-size: clamp(1.1rem, 1.2vw, 1.4rem);
-		--location-size: clamp(0.95rem, 1vw, 1.1rem);
-		--social-size: clamp(0.9rem, 1vw, 1.1rem);
-		min-height: 100vh;
-		margin-top: var(--header-offset-top);
-		color: #fff;
+		--header-offset-bottom: clamp(0.75rem, 2vh, 1.5rem);
+		--role-size: calc(var(--font-size-base) * 1.25);
+		--introduction-size: var(--font-size-base);
+		--location-size: var(--font-size-base);
+		--social-size: calc(var(--font-size-base) * 0.95);
+		--heading-size: calc(var(--font-size-base) * 2.55);
+		padding-top: var(--header-offset-top);
+		padding-bottom: var(--header-offset-bottom);
 	}
 
 	.header-content {
+		position: relative;
 		padding-top: var(--header-content-top);
+	}
+
+	.theme-toggle {
+		--theme-button-size: 3.3em;
+		--theme-icon-size: calc(var(--theme-button-size) * 0.45);
+		position: absolute;
+		top: 0;
+		right: 0;
+		inline-size: var(--theme-button-size);
+		block-size: var(--theme-button-size);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 0;
+		border-radius: calc(var(--theme-button-size) * 0.3);
+		background: transparent;
+		color: inherit;
+		opacity: 0.6;
+		cursor: pointer;
+		overflow: hidden;
+		box-sizing: border-box;
+		transition: opacity 180ms ease;
+	}
+
+	.theme-toggle::before,
+	.theme-toggle::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		pointer-events: none;
+	}
+
+	.theme-toggle::before {
+		border: 1px solid currentColor;
+		opacity: 0.26;
+		transition: opacity 180ms ease;
+	}
+
+	.theme-toggle::after {
+		background: currentColor;
+		opacity: 0;
+		transition: opacity 180ms ease;
+	}
+
+	.theme-toggle:hover {
+		opacity: 0.9;
+	}
+
+	.theme-toggle:hover::before {
+		opacity: 0.4;
+	}
+
+	.theme-toggle:hover::after {
+		opacity: 0.06;
+	}
+
+	.theme-toggle:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+		opacity: 1;
+	}
+
+	.theme-toggle :global(svg) {
+		position: relative;
+		z-index: 1;
+		inline-size: var(--theme-icon-size);
+		block-size: var(--theme-icon-size);
 	}
 
 	.bio {
@@ -89,11 +185,11 @@
 
 	h1 {
 		margin: 0;
-		font-size: clamp(2rem, 3vw, 2.8rem);
+		font-size: var(--heading-size);
 		line-height: 1.05;
 		font-weight: 600;
 		letter-spacing: -0.04em;
-		color: #f5f5f5;
+		opacity: 0.95;
 	}
 
 	.role {
@@ -101,7 +197,16 @@
 		font-size: var(--role-size);
 		line-height: 1.2;
 		font-weight: 400;
-		color: #9f9f9f;
+		opacity: 0.72;
+	}
+
+	.introduction {
+		margin: 0.7em 0 0;
+		max-inline-size: 60ch;
+		font-size: var(--introduction-size);
+		line-height: 1.5;
+		font-weight: 400;
+		opacity: 0.68;
 	}
 
 	.location-row {
@@ -110,6 +215,7 @@
 		gap: 0.55em;
 		margin-top: 0.8em;
 		font-size: var(--location-size);
+		opacity: 0.58;
 	}
 
 	.location-row :global(svg) {
@@ -123,7 +229,6 @@
 		font-size: 1em;
 		line-height: 1.4;
 		font-weight: 400;
-		color: #8a8a8a;
 	}
 
 	.socials {
@@ -137,32 +242,66 @@
 	.social-button {
 		--social-button-size: 2.75em;
 		--social-icon-size: calc(var(--social-button-size) * 0.4);
+		position: relative;
 		inline-size: var(--social-button-size);
 		block-size: var(--social-button-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border: 1px solid #222;
+		border: 0;
 		border-radius: calc(var(--social-button-size) * 0.3);
-		opacity: 0.6;
-		color: #d4d4d4;
+		background: transparent;
+		overflow: hidden;
+		opacity: 0.52;
+		color: inherit;
 		text-decoration: none;
 		box-sizing: border-box;
-		transition:
-			border-color 0.4s ease,
-			color 0.4s ease,
-			background-color 0.4s ease;
+		transition: opacity 180ms ease;
+	}
+
+	.social-button::before,
+	.social-button::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		pointer-events: none;
+	}
+
+	.social-button::before {
+		border: 1px solid currentColor;
+		opacity: 0.26;
+		transition: opacity 180ms ease;
+	}
+
+	.social-button::after {
+		background: currentColor;
+		opacity: 0;
+		transition: opacity 180ms ease;
 	}
 
 	.social-button:hover {
-		border-color: #3a3a3a;
-		color: #ffffff;
-		background: #0a0a0a;
-		opacity: 1;
+		opacity: 0.88;
+	}
+
+	.social-button:hover::before {
+		opacity: 0.38;
+	}
+
+	.social-button:hover::after {
+		opacity: 0.06;
+	}
+
+	.social-button:focus-visible {
+		outline: 2px solid currentColor;
+		outline-offset: 2px;
+		opacity: 0.95;
 	}
 
 	.social-button :global(svg),
 	.brand-icon {
+		position: relative;
+		z-index: 1;
 		inline-size: var(--social-icon-size);
 		block-size: var(--social-icon-size);
 		display: block;
@@ -171,6 +310,10 @@
 
 	.brand-icon {
 		object-fit: contain;
-		opacity: 0.8;
+		opacity: 0.82;
+	}
+
+	:global(.page[data-theme='light']) .brand-icon {
+		filter: invert(1);
 	}
 </style>
