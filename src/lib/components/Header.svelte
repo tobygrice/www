@@ -134,7 +134,7 @@
 		border-radius: calc(var(--theme-button-size) * 0.3);
 		background: var(--theme-fg);
 		color: var(--theme-bg);
-		opacity: 0.88;
+		opacity: 0.5;
 		cursor: pointer;
 		box-sizing: border-box;
 		transition: opacity 180ms ease;

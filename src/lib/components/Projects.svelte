@@ -43,7 +43,7 @@
 		--projects-base-size: var(--font-size-base);
 		--projects-label-size: calc(var(--projects-base-size) * 0.8);
 		--projects-title-size: calc(var(--projects-base-size) * 1.25);
-		--projects-year-size: calc(var(--projects-base-size) * 1.05);
+		--projects-year-size: calc(var(--projects-base-size) * 1);
 		--projects-subtitle-size: calc(var(--projects-base-size) * 1.05);
 		--projects-bullet-size: var(--projects-base-size);
 		--projects-title-line-height: 1.1;
@@ -170,7 +170,19 @@
 
 	@media (max-width: 45rem) {
 		.project-header {
-			column-gap: 0.5rem;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			row-gap: 0.35rem;
+		}
+
+		.project-header h3 {
+			order: 2;
+		}
+
+		.project-header .project-year {
+			order: 1;
+			white-space: normal;
 		}
 	}
 </style>
