@@ -16,7 +16,7 @@
 							<span class="timeline-dot" aria-hidden="true"></span>
 							<header class="project-header">
 								<h3>{project.title}</h3>
-								<p class="project-year">{project.startdate} - {project.enddate}</p>
+								<p class="project-year">{project.startdate} – {project.enddate}</p>
 							</header>
 						</div>
 

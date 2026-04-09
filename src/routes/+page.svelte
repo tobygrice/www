@@ -1,13 +1,47 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
 	import Header from '$lib/components/Header.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 	import { BIO, CONTACT, PROJECTS } from '$lib/data/content';
+	import { onMount } from 'svelte';
 
-	let theme = $state<'dark' | 'light'>('dark');
+	type Theme = 'dark' | 'light';
+
+	const THEME_STORAGE_KEY = 'portfolio-theme';
+
+	const getThemeFromDocument = (): Theme => {
+		if (!browser) {
+			return 'dark';
+		}
+
+		return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+	};
+
+	let theme = $state<Theme>('dark');
+	let isThemeReady = $state(false);
+
+	onMount(() => {
+		theme = getThemeFromDocument();
+		isThemeReady = true;
+	});
 
 	const toggleTheme = () => {
 		theme = theme === 'dark' ? 'light' : 'dark';
 	};
+
+	if (browser) {
+		$effect(() => {
+			if (!isThemeReady) {
+				return;
+			}
+
+			document.documentElement.dataset.theme = theme;
+
+			try {
+				localStorage.setItem(THEME_STORAGE_KEY, theme);
+			} catch {}
+		});
+	}
 </script>
 
 <svelte:head>
@@ -15,27 +49,18 @@
 	<meta name="description" content="Developer portfolio" />
 </svelte:head>
 
-<main class="page" data-theme={theme}>
-	<Header bio={BIO} contact={CONTACT} theme={theme} onToggleTheme={toggleTheme} />
+<main class="page">
+	<Header bio={BIO} contact={CONTACT} {theme} onToggleTheme={toggleTheme} />
 	<Projects projects={PROJECTS} />
 </main>
 
 <style>
 	.page {
-		--theme-ink: 255;
-		--theme-fg: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
-		--theme-bg: rgb(
-			calc(255 - var(--theme-ink)) calc(255 - var(--theme-ink)) calc(255 - var(--theme-ink))
-		);
 		min-height: 100vh;
 		background: var(--theme-bg);
 		color: var(--theme-fg);
 		transition:
 			background-color 180ms ease,
 			color 180ms ease;
-	}
-
-	.page[data-theme='light'] {
-		--theme-ink: 0;
 	}
 </style>

@@ -295,7 +295,7 @@
 		opacity: 0.82;
 	}
 
-	:global(.page[data-theme='light']) .brand-icon {
+	:global(html[data-theme='light']) .brand-icon {
 		filter: invert(1);
 	}
 </style>
