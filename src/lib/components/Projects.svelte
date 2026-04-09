@@ -109,10 +109,20 @@
 		inline-size: var(--timeline-dot-size);
 		block-size: var(--timeline-dot-size);
 		justify-self: center;
-		border: 2px solid currentColor;
 		border-radius: 50%;
-		opacity: 0.2;
+		background-color: var(--theme-bg);
 		box-sizing: border-box;
+		transition: background-color 180ms ease;
+	}
+
+	.timeline-dot::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border: 2px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.2);
+		border-radius: 50%;
+		box-sizing: border-box;
+		transition: border-color 180ms ease;
 	}
 
 	.project-header {
