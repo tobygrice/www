@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import Footer from '$lib/components/Footer.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 	import { BIO, CONTACT, PROJECTS } from '$lib/data/content';
@@ -52,6 +53,7 @@
 <main class="page">
 	<Header bio={BIO} contact={CONTACT} {theme} onToggleTheme={toggleTheme} />
 	<Projects projects={PROJECTS} />
+	<Footer />
 </main>
 
 <style>

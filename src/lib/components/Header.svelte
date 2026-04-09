@@ -96,11 +96,13 @@
 		--header-offset-top: clamp(2.5rem, 7vh, 5rem);
 		--header-content-top: clamp(1.5rem, 4.5vh, 3.5rem);
 		--header-offset-bottom: clamp(0.75rem, 2vh, 1.5rem);
-		--role-size: calc(var(--font-size-base) * 1.25);
-		--introduction-size: var(--font-size-base);
-		--location-size: var(--font-size-base);
-		--social-size: calc(var(--font-size-base) * 0.95);
-		--heading-size: calc(var(--font-size-base) * 2.55);
+		--role-size: 1.1rem;
+		--introduction-size: 0.9rem;
+		--location-size: 0.9rem;
+		--social-size: 0.9rem;
+		--heading-size: 2rem;
+		--heading-line-height: 1.05;
+		--heading-line-size: calc(var(--heading-size) * var(--heading-line-height));
 		padding-top: var(--header-offset-top);
 		padding-bottom: var(--header-offset-bottom);
 	}
@@ -117,11 +119,7 @@
 	}
 
 	.theme-toggle {
-		--theme-button-size: clamp(
-			calc(var(--font-size-base) * 2.3),
-			calc(var(--font-size-base) * 2.3 + max(0px, (100vw - 48rem) * 0.03)),
-			calc(var(--heading-size) * 1.05)
-		);
+		--theme-button-size: var(--heading-line-size);
 		--theme-icon-size: calc(var(--theme-button-size) * 0.45);
 		inline-size: var(--theme-button-size);
 		block-size: var(--theme-button-size);
@@ -168,7 +166,7 @@
 		flex: 1 1 auto;
 		min-inline-size: 0;
 		font-size: var(--heading-size);
-		line-height: 1.05;
+		line-height: var(--heading-line-height);
 		font-weight: 600;
 		letter-spacing: -0.04em;
 		opacity: 0.95;

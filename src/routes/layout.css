@@ -2,9 +2,8 @@
 @plugin '@tailwindcss/typography';
 
 :root {
-	--content-max-width: clamp(40rem, 50vw, 60rem);
+	--content-max-width: clamp(40rem, 50vw, 50rem);
 	--content-gutter: clamp(1rem, 3.5vw, 2rem);
-	--font-size-base: clamp(0.85rem, 1vw, 1rem);
 	--theme-ink: 255;
 	--theme-fg: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
 	--theme-bg: rgb(

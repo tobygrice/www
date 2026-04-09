@@ -9,7 +9,7 @@
 		<p class="section-label" id="projects-heading">PROJECTS</p>
 
 		<ol class="timeline">
-			{#each projects as project (project.id)}
+			{#each projects as project}
 				<li class="timeline-item">
 					<article class="project">
 						<div class="timeline-head">
@@ -40,15 +40,14 @@
 
 <style>
 	.projects {
-		--projects-base-size: var(--font-size-base);
-		--projects-label-size: calc(var(--projects-base-size) * 0.8);
-		--projects-title-size: calc(var(--projects-base-size) * 1.25);
-		--projects-year-size: calc(var(--projects-base-size) * 1);
-		--projects-subtitle-size: calc(var(--projects-base-size) * 1.05);
-		--projects-bullet-size: var(--projects-base-size);
+		--projects-label-size: 0.7rem;
+		--projects-title-size: 1.15rem;
+		--projects-year-size: 0.8rem;
+		--projects-subtitle-size: 0.95rem;
+		--projects-bullet-size: 0.9rem;
 		--projects-title-line-height: 1.1;
-		--timeline-marker-column: clamp(1.2rem, 2.4vw, 1.6rem);
-		--timeline-content-gap: clamp(0.75rem, 1.8vw, 1rem);
+		--timeline-marker-column: 1.6rem;
+		--timeline-content-gap: 0.8rem;
 		--timeline-dot-size: 0.7rem;
 		--timeline-rail-offset: calc(var(--projects-title-size) * 0.55);
 		padding-bottom: clamp(1.5rem, 4vh, 3rem);
@@ -178,7 +177,7 @@
 		margin-top: 0.38rem;
 	}
 
-	@media (max-width: 45rem) {
+	@media (max-width: 80rem) {
 		.project-header {
 			display: flex;
 			flex-direction: column;

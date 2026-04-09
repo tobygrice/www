@@ -14,7 +14,6 @@ export type Contact = {
 };
 
 export type Project = {
-    id: number;
     title: string;
     subtitle?: string;
     startdate: string;
@@ -40,8 +39,21 @@ export const CONTACT: Contact = {
 
 export const PROJECTS: Project[] = [
     {
-        id: 1,
-        title: 'Advanced Encryption Standard in Parallel (AESP) Library',
+        title: 'Nintendo Entertainment System (NES) Emulator',
+        subtitle: 'Concurrency, Low-Level Systems, Hardware Emulation, C++',
+        startdate: 'Feb. 2025',
+        enddate: 'Mar. 2026',
+        bullets: [
+            'Implemented core NES components (6502 CPU, memory map, bus) around a shared clock architecture.',
+            'Parallelised the entire system with separate threads per component operating at single-tick granularity.',
+            'Built and debugged a high-concurrency design with an emphasis on determinism and system stability.',
+            'Analysed performance trade-offs of cycle-accurate emulation: context-switch overhead vs synchronisation costs.',
+            'Strengthened low-level debugging skills: timing issues, race-prone logic, and system testing strategy.'
+        ],
+        link: ''
+    },
+    {
+        title: 'Advanced Encryption Standard in Parallel (AESP)',
         subtitle: 'Parallelism, Applied Cryptography, API Design, Library Development, Rust',
         startdate: 'Jan. 2026',
         enddate: 'Feb. 2026',
@@ -55,22 +67,6 @@ export const PROJECTS: Project[] = [
         link: ''
     },
     {
-        id: 2,
-        title: 'Nintendo Entertainment System (NES) Emulator',
-        subtitle: 'Concurrency, Low-Level Systems, Hardware Emulation, C++',
-        startdate: 'Feb. 2025',
-        enddate: 'Apr. 2025',
-        bullets: [
-            'Implemented core NES components (6502 CPU, memory map, bus) around a shared clock architecture.',
-            'Parallelised the entire system with separate threads per component operating at single-tick granularity.',
-            'Built and debugged a high-concurrency design with an emphasis on determinism and system stability.',
-            'Analysed performance trade-offs of cycle-accurate emulation: context-switch overhead vs synchronisation costs.',
-            'Strengthened low-level debugging skills: timing issues, race-prone logic, and system testing strategy.'
-        ],
-        link: ''
-    },
-    {
-        id: 3,
         title: 'EchoPulse — Tech eChallenge',
         subtitle: 'UX Design, Market Research, Marketing, Teamwork, Public Speaking',
         startdate: 'Mar. 2025',
