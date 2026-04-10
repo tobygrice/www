@@ -8,14 +8,14 @@
 {#snippet projectContent(project: Project)}
 	<div class="timeline-head">
 		<span class="timeline-dot" aria-hidden="true"></span>
-		<header class="project-header">
-			<h3 class="project-title">
-				<span>{project.title}</span>
-				{#if project.link}
-					<span class="project-link-icon" aria-hidden="true">
-						<ExternalLink strokeWidth={2} />
-					</span>
-				{/if}
+			<header class="project-header">
+				<h3 class="project-title">
+					<span class="project-title-text">{project.title}</span>
+					{#if project.link}
+						<span class="project-link-icon" aria-hidden="true">
+							<ExternalLink strokeWidth={2} />
+						</span>
+					{/if}
 			</h3>
 			<p class="project-year">{project.startdate} – {project.enddate}</p>
 		</header>
@@ -102,28 +102,10 @@
 	}
 
 	.timeline-link {
-		position: relative;
 		display: block;
 		color: inherit;
 		text-decoration: none;
 		cursor: pointer;
-	}
-
-	.timeline-link::before {
-		content: '';
-		position: absolute;
-		/* top right bottom left */
-		inset: -0.5em -0.8em -0.6em -0.3em;
-		border-radius: 0.6rem;
-		background: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.06);
-		opacity: 0;
-		transition: opacity 200ms ease;
-		pointer-events: none;
-	}
-
-	.timeline-item-linked .timeline-link:hover::before,
-	.timeline-item-linked .timeline-link:focus-visible::before {
-		opacity: 1;
 	}
 
 	.timeline-item-linked .timeline-link:focus-visible {
@@ -196,8 +178,19 @@
 
 	.timeline-item-linked .timeline-link:hover .project-title,
 	.timeline-item-linked .timeline-link:focus-visible .project-title {
-		text-decoration: underline;
+		opacity: 1;
+	}
+
+	.project-title-text {
+		text-decoration-line: underline;
+		text-decoration-color: transparent;
 		text-underline-offset: 0.14em;
+		transition: text-decoration-color 200ms ease;
+	}
+
+	.timeline-item-linked .timeline-link:hover .project-title-text,
+	.timeline-item-linked .timeline-link:focus-visible .project-title-text {
+		text-decoration-color: currentColor;
 	}
 
 	.project-link-icon {
@@ -252,18 +245,6 @@
 		font-weight: 400;
 		opacity: 0.6;
 		transition: opacity 200ms ease;
-	}
-
-	.timeline-item-linked .timeline-link:hover .project-subtitle,
-	.timeline-item-linked .timeline-link:hover .project-bullets li,
-	.timeline-item-linked .timeline-link:focus-visible .project-subtitle,
-	.timeline-item-linked .timeline-link:focus-visible .project-bullets li {
-		opacity: 0.75;
-	}
-
-	.timeline-link:hover .project-link-icon,
-	.timeline-link:focus-visible .project-link-icon {
-		opacity: 0.9;
 	}
 
 	.project-bullets li + li {
