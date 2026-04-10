@@ -9,6 +9,7 @@
 	import Projects from '$lib/components/Projects.svelte';
 
 	import { BIO, CONTACT, EDUCATION, PROJECTS, SKILLS } from '$lib/data/content';
+	import { siPortableappsdotcom } from 'simple-icons';
 
 	type Theme = 'dark' | 'light';
 
@@ -48,7 +49,7 @@
 </script>
 
 <svelte:head>
-	<title>Toby Grice</title>
+	<title>Toby Grice | Portfolio</title>
 	<meta name="description" content="Developer portfolio" />
 </svelte:head>
 
