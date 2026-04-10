@@ -38,8 +38,8 @@
 	};
 </script>
 
-<section class="skills" id="skills" aria-labelledby="skills-heading">
-	<div class="content-shell skills-content">
+<section class="pb-[clamp(1.5rem,4vh,3rem)]" id="skills" aria-labelledby="skills-heading">
+	<div class="content-shell pt-[clamp(0.2rem,0.8vh,0.55rem)]">
 		<p class="section-label" id="skills-heading">SKILLS</p>
 
 		<ul class="skills-list">
@@ -66,19 +66,9 @@
 </section>
 
 <style>
-	.skills {
-		--skills-label-size: 0.7rem;
-		--skills-chip-size: 0.9rem;
-		padding-bottom: clamp(1.5rem, 4vh, 3rem);
-	}
-
-	.skills-content {
-		padding-top: clamp(0.2rem, 0.8vh, 0.55rem);
-	}
-
 	.section-label {
 		margin: 0 0 clamp(0.85rem, 2vh, 1.25rem);
-		font-size: var(--skills-label-size);
+		font-size: 0.7rem;
 		font-weight: 500;
 		letter-spacing: 0.15em;
 		opacity: 0.5;
@@ -90,11 +80,8 @@
 		list-style: none;
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.7rem 0.75rem;
-	}
-
-	.skill-item {
-		margin: 0;
+		column-gap: 0.75rem;
+		row-gap: 0.7rem;
 	}
 
 	.skill-chip {
@@ -104,7 +91,7 @@
 		padding: 0.58rem 1rem 0.58rem 0.78rem;
 		border: 1px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.2);
 		border-radius: 10px;
-		background-color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.02);
+		background: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.02);
 		transition:
 			border-color 200ms ease,
 			background-color 200ms ease;
@@ -120,9 +107,9 @@
 	}
 
 	.skill-icon :global(svg) {
+		display: block;
 		inline-size: 100%;
 		block-size: 100%;
-		display: block;
 	}
 
 	.brand-mark {
@@ -130,14 +117,14 @@
 	}
 
 	.skill-name {
-		font-size: var(--skills-chip-size);
+		font-size: var(--font-size-base);
 		line-height: 1.1;
 		font-weight: 500;
 		letter-spacing: -0.01em;
 		opacity: 0.9;
 	}
 
-	@media (max-width: 70rem) {
+	@media (max-width: 55rem) {
 		.skills-list {
 			gap: 0.55rem;
 		}

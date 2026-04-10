@@ -40,7 +40,9 @@
 
 			try {
 				localStorage.setItem(THEME_STORAGE_KEY, theme);
-			} catch {}
+			} catch {
+				// Ignore storage failures in restricted browser environments.
+			}
 		});
 	}
 </script>
@@ -50,21 +52,10 @@
 	<meta name="description" content="Developer portfolio" />
 </svelte:head>
 
-<main class="page">
+<main class="min-h-screen bg-(--theme-bg) text-(--theme-fg) transition-colors duration-200">
 	<Header bio={BIO} contact={CONTACT} {theme} onToggleTheme={toggleTheme} />
 	<Education education={EDUCATION} />
 	<Projects projects={PROJECTS} />
 	<Skills skills={SKILLS} />
 	<Footer />
 </main>
-
-<style>
-	.page {
-		min-height: 100vh;
-		background: var(--theme-bg);
-		color: var(--theme-fg);
-		transition:
-			background-color 200ms ease,
-			color 200ms ease;
-	}
-</style>

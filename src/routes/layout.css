@@ -1,9 +1,14 @@
+@import 'tailwindcss';
+
 :root {
-    --content-max-width: clamp(40rem, 50vw, 55rem);
+    --content-max-width: 55rem;
     --content-gutter: 1.5rem;
     --theme-ink: 255;
     --theme-fg: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
     --theme-bg: rgb(calc(255 - var(--theme-ink)) calc(255 - var(--theme-ink)) calc(255 - var(--theme-ink)));
+    --font-size-base: 0.9rem;
+    --font-size-subtitle: 0.95rem;
+    --font-size-header: 1.1rem;
 }
 
 html {

@@ -8,8 +8,8 @@
 	};
 </script>
 
-<section class="education" id="education" aria-labelledby="education-heading">
-	<div class="content-shell education-content">
+<section class="pb-[clamp(1.5rem,4vh,3rem)]" id="education" aria-labelledby="education-heading">
+	<div class="content-shell pt-[clamp(0.2rem,0.8vh,0.55rem)]">
 		<p class="section-label" id="education-heading">EDUCATION</p>
 
 		<ul class="education-list">
@@ -18,7 +18,7 @@
 					<article class="education-entry">
 						<header class="education-header">
 							<div class="education-heading">
-								<h3>{entry.title}</h3>
+								<h3 class="education-title">{entry.title}</h3>
 								<p class="education-institution">{entry.institution}</p>
 							</div>
 							<div class="education-meta">
@@ -44,23 +44,9 @@
 </section>
 
 <style>
-	.education {
-		--education-label-size: 0.7rem;
-		--education-title-size: 1.1rem;
-		--education-meta-size: 0.8rem;
-		--education-institution-size: 0.95rem;
-		--education-bullet-size: 0.9rem;
-		--education-title-line-height: 1.1;
-		padding-bottom: clamp(1.5rem, 4vh, 3rem);
-	}
-
-	.education-content {
-		padding-top: clamp(0.2rem, 0.8vh, 0.55rem);
-	}
-
 	.section-label {
 		margin: 0 0 clamp(0.85rem, 2vh, 1.25rem);
-		font-size: var(--education-label-size);
+		font-size: 0.7rem;
 		font-weight: 500;
 		letter-spacing: 0.15em;
 		opacity: 0.5;
@@ -72,15 +58,19 @@
 		list-style: none;
 	}
 
-	.education-item + .education-item {
+	.education-item {
 		margin-top: clamp(1.25rem, 3.5vh, 2rem);
+	}
+
+	.education-item:first-child {
+		margin-top: 0;
 	}
 
 	.education-entry {
 		padding: clamp(0.9rem, 2.2vh, 1.3rem) clamp(1rem, 2.5vw, 1.4rem);
-		border: 1px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.2);
+		border: 1px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.25);
 		border-radius: 0.55rem;
-		background-color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.007);
+		background: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.007);
 		transition:
 			border-color 200ms ease,
 			background-color 200ms ease;
@@ -93,15 +83,10 @@
 		column-gap: 0.75rem;
 	}
 
-	.education-heading {
-		grid-column: 1;
-		grid-row: 1;
-	}
-
-	h3 {
+	.education-title {
 		margin: 0;
-		font-size: var(--education-title-size);
-		line-height: var(--education-title-line-height);
+		font-size: var(--font-size-header);
+		line-height: 1.1;
 		font-weight: 600;
 		letter-spacing: -0.01em;
 		opacity: 0.9;
@@ -109,34 +94,29 @@
 
 	.education-institution {
 		margin: 0.55rem 0 0;
-		font-size: var(--education-institution-size);
+		font-size: var(--font-size-subtitle);
 		line-height: 1.35;
-		font-weight: 400;
 		font-style: italic;
+		font-weight: 400;
 		opacity: 0.6;
 	}
 
 	.education-meta {
-		grid-column: 2;
-		grid-row: 1;
 		justify-self: end;
 		text-align: right;
 	}
 
-	.education-year {
+	.education-year,
+	.education-gpa {
 		margin: 0;
-		font-size: var(--education-meta-size);
+		font-size: 0.8rem;
 		font-weight: 400;
-		opacity: 0.55;
 		white-space: nowrap;
+		opacity: 0.55;
 	}
 
 	.education-gpa {
-		margin: 0.35rem 0 0;
-		font-size: var(--education-meta-size);
-		font-weight: 400;
-		opacity: 0.55;
-		white-space: nowrap;
+		margin-top: 0.35rem;
 	}
 
 	.education-bullets {
@@ -146,7 +126,7 @@
 	}
 
 	.education-bullets li {
-		font-size: var(--education-bullet-size);
+		font-size: var(--font-size-base);
 		line-height: 1.45;
 		font-weight: 400;
 		opacity: 0.6;
@@ -156,7 +136,7 @@
 		margin-top: 0.38rem;
 	}
 
-	@media (max-width: 70rem) {
+	@media (max-width: 55rem) {
 		.education-header {
 			display: flex;
 			flex-direction: column;
