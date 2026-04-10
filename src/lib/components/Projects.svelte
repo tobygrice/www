@@ -8,14 +8,14 @@
 {#snippet projectContent(project: Project)}
 	<div class="timeline-head">
 		<span class="timeline-dot" aria-hidden="true"></span>
-			<header class="project-header">
-				<h3 class="project-title">
-					<span class="project-title-text">{project.title}</span>
-					{#if project.link}
-						<span class="project-link-icon" aria-hidden="true">
-							<ExternalLink strokeWidth={2} />
-						</span>
-					{/if}
+		<header class="project-header">
+			<h3 class="project-title">
+				<span class="project-title-text">{project.title}</span>
+				{#if project.link}
+					<span class="project-link-icon" aria-hidden="true">
+						<ExternalLink strokeWidth={2} />
+					</span>
+				{/if}
 			</h3>
 			<p class="project-year">{project.startdate} – {project.enddate}</p>
 		</header>
@@ -36,14 +36,19 @@
 
 <section class="pb-[clamp(1.5rem,4vh,3rem)]" id="projects" aria-labelledby="projects-heading">
 	<div class="content-shell pt-[clamp(0.2rem,0.8vh,0.55rem)]">
-		<p class="section-label" id="projects-heading">PROJECTS</p>
+		<p
+			class="m-0 mb-[clamp(0.85rem,2vh,1.25rem)] text-[0.7rem] font-medium tracking-[0.15em] opacity-50"
+			id="projects-heading"
+		>
+			PROJECTS
+		</p>
 
 		<ol class="timeline">
 			{#each projects as project (`${project.title}-${project.startdate}`)}
 				<li class="timeline-item" class:timeline-item-linked={Boolean(project.link)}>
 					{#if project.link}
 						<a
-							class="timeline-link"
+							class="timeline-link block cursor-pointer text-inherit no-underline"
 							href={project.link}
 							target="_blank"
 							rel="noreferrer noopener"
@@ -65,14 +70,6 @@
 </section>
 
 <style>
-	.section-label {
-		margin: 0 0 clamp(0.85rem, 2vh, 1.25rem);
-		font-size: 0.7rem;
-		font-weight: 500;
-		letter-spacing: 0.15em;
-		opacity: 0.5;
-	}
-
 	.timeline {
 		position: relative;
 		isolation: isolate;
@@ -99,13 +96,6 @@
 
 	.timeline-item:last-child {
 		padding-bottom: 0;
-	}
-
-	.timeline-link {
-		display: block;
-		color: inherit;
-		text-decoration: none;
-		cursor: pointer;
 	}
 
 	.timeline-item-linked .timeline-link:focus-visible {

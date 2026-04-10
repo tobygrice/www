@@ -32,20 +32,26 @@
 </script>
 
 <section class="pt-[clamp(2.5rem,7vh,5rem)] pb-[clamp(0.75rem,2vh,1.5rem)]">
-	<div class="content-shell header-content">
-		<div class="bio">
-			<h1 class="name-heading">{bio.name}</h1>
-			<p class="role-text">{bio.role}</p>
+	<div class="content-shell relative pt-[clamp(1.5rem,4.5vh,3.5rem)]">
+		<div class="flex min-w-0 flex-1 flex-col items-start pr-14">
+			<h1 class="m-0 text-[2.1rem] leading-[1.05] font-semibold tracking-[-0.04em] opacity-95">
+				{bio.name}
+			</h1>
+			<p class="mt-[0.66rem] mb-0 text-[1.1rem] leading-[1.2] font-normal opacity-75">{bio.role}</p>
 			{#if bio.introduction}
-				<p class="intro-text">{bio.introduction}</p>
+				<p
+					class="mt-[0.63rem] mb-0 max-w-[50ch] text-[0.9rem] leading-normal font-normal opacity-70"
+				>
+					{bio.introduction}
+				</p>
 			{/if}
 
-			<div class="location-row">
-				<MapPin class="location-icon" strokeWidth={2} />
-				<p class="location-text">{bio.location}</p>
+			<div class="mt-[0.72rem] flex items-center gap-[0.495rem] text-[0.9rem] opacity-60">
+				<MapPin class="size-[1em] shrink-0" strokeWidth={2} />
+				<p class="m-0 text-[1em] leading-[1.4] font-normal">{bio.location}</p>
 			</div>
 
-			<div class="socials">
+			<div class="mt-4.5 flex flex-row gap-[0.7rem]">
 				<a
 					href={contact.github}
 					target="_blank"
@@ -55,7 +61,7 @@
 				>
 					<svg
 						viewBox="0 0 24 24"
-						class="control-icon brand-mark"
+						class="relative z-1 block size-4 shrink-0 fill-current"
 						aria-hidden="true"
 						focusable="false"
 					>
@@ -73,7 +79,7 @@
 					<img
 						src={linkedinIcon}
 						alt=""
-						class={`control-icon brand-icon ${theme === 'light' ? 'icon-inverted' : ''}`}
+						class={`relative z-1 block size-4 shrink-0 object-contain opacity-80 ${theme === 'light' ? 'invert' : ''}`}
 					/>
 				</a>
 
@@ -86,7 +92,7 @@
 				>
 					<svg
 						viewBox="0 0 24 24"
-						class="control-icon brand-mark"
+						class="relative z-1 block size-4 shrink-0 fill-current"
 						aria-hidden="true"
 						focusable="false"
 					>
@@ -95,12 +101,14 @@
 				</a>
 
 				<a href={`mailto:${contact.email}`} aria-label="Email" class="social-button">
-					<Mail class="control-icon" strokeWidth={2} />
+					<Mail class="relative z-1 block size-4 shrink-0" strokeWidth={2} />
 				</a>
 			</div>
 		</div>
 
-		<div class="header-actions">
+		<div
+			class="absolute top-[clamp(1.5rem,4.5vh,3.5rem)] right-(--content-gutter) flex flex-col gap-[0.7rem]"
+		>
 			<button
 				type="button"
 				class="theme-toggle"
@@ -109,9 +117,9 @@
 				onclick={onToggleTheme}
 			>
 				{#if theme === 'dark'}
-					<Sun class="control-icon" strokeWidth={2} />
+					<Sun class="relative z-1 block size-4 shrink-0" strokeWidth={2} />
 				{:else}
-					<Moon class="control-icon" strokeWidth={2} />
+					<Moon class="relative z-1 block size-4 shrink-0" strokeWidth={2} />
 				{/if}
 			</button>
 
@@ -122,91 +130,13 @@
 				aria-label="Download CV"
 				title="Download CV"
 			>
-				<Download class="control-icon" strokeWidth={2} />
+				<Download class="relative z-1 block size-4 shrink-0" strokeWidth={2} />
 			</button>
 		</div>
 	</div>
 </section>
 
 <style>
-	.header-content {
-		position: relative;
-		padding-top: clamp(1.5rem, 4.5vh, 3.5rem);
-	}
-
-	.bio {
-		display: flex;
-		flex: 1 1 auto;
-		min-inline-size: 0;
-		flex-direction: column;
-		align-items: flex-start;
-		padding-inline-end: 3.5rem;
-	}
-
-	.name-heading {
-		margin: 0;
-		font-size: 2.1rem;
-		line-height: 1.05;
-		font-weight: 600;
-		letter-spacing: -0.04em;
-		opacity: 0.95;
-	}
-
-	.role-text {
-		margin: 0.66rem 0 0;
-		font-size: var(--font-size-header);
-		line-height: 1.2;
-		font-weight: 400;
-		opacity: 0.75;
-	}
-
-	.intro-text {
-		margin: 0.63rem 0 0;
-		max-inline-size: 50ch;
-		font-size: var(--font-size-base);
-		line-height: 1.5;
-		font-weight: 400;
-		opacity: 0.7;
-	}
-
-	.location-row {
-		display: flex;
-		align-items: center;
-		gap: 0.495rem;
-		margin-top: 0.72rem;
-		font-size: var(--font-size-base);
-		opacity: 0.6;
-	}
-
-	.header-content :global(.location-icon) {
-		inline-size: 1em;
-		block-size: 1em;
-		flex-shrink: 0;
-	}
-
-	.location-text {
-		margin: 0;
-		font-size: 1em;
-		line-height: 1.4;
-		font-weight: 400;
-	}
-
-	.socials {
-		display: flex;
-		flex-direction: row;
-		gap: 0.7rem;
-		margin-top: 1.125rem;
-	}
-
-	.header-actions {
-		position: absolute;
-		top: clamp(1.5rem, 4.5vh, 3.5rem);
-		right: var(--content-gutter);
-		display: flex;
-		flex-direction: column;
-		gap: 0.7rem;
-	}
-
 	.theme-toggle,
 	.social-button {
 		inline-size: 2.5rem;
@@ -286,27 +216,5 @@
 		opacity: 0.95;
 		outline: 2px solid currentColor;
 		outline-offset: 2px;
-	}
-
-	.header-content :global(.control-icon) {
-		position: relative;
-		z-index: 1;
-		display: block;
-		inline-size: 1rem;
-		block-size: 1rem;
-		flex-shrink: 0;
-	}
-
-	.brand-mark {
-		fill: currentColor;
-	}
-
-	.brand-icon {
-		object-fit: contain;
-		opacity: 0.8;
-	}
-
-	.brand-icon.icon-inverted {
-		filter: invert(1);
 	}
 </style>

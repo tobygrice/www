@@ -45,7 +45,7 @@
 		<ul class="skills-list">
 			{#each skills as skill (skill.name)}
 				{@const skillIcon = getSkillIcon(skill)}
-				<li class="skill-item">
+				<li>
 					<div class="skill-chip">
 						<span class="skill-icon" aria-hidden="true">
 							{#if skillIcon.type === 'simple-icons'}
