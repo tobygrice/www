@@ -80,7 +80,7 @@
 		padding: clamp(0.9rem, 2.2vh, 1.3rem) clamp(1rem, 2.5vw, 1.4rem);
 		border: 1px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.2);
 		border-radius: 0.55rem;
-		background-color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.02);
+		background-color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.007);
 		transition:
 			border-color 200ms ease,
 			background-color 200ms ease;

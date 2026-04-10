@@ -69,14 +69,15 @@ export const EDUCATION: Education[] = [
 export const SKILLS: Skill[] = [
     { name: 'C++' },
     { name: 'Rust' },
-    { name: 'JavaScript' },
-    { name: 'TypeScript' },
     { name: 'Python' },
     { name: 'Java' },
+    { name: 'Bash' },
+    { name: 'Svelte' },
+    { name: 'JavaScript' },
+    { name: 'TypeScript' },
+    { name: 'SQL' },
     { name: 'Git' },
     { name: 'Docker' },
-    { name: 'Bash' },
-    { name: 'SQL' },
     { name: 'Vercel' }
 ];
 

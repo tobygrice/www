@@ -1,37 +1,41 @@
 <script lang="ts">
 	import type { Skill } from '$lib/data/content';
+	import { Coffee, Database, Terminal } from 'lucide-svelte';
+	import type { SimpleIcon } from 'simple-icons';
 	import {
-		Binary,
-		Braces,
-		Code2,
-		Coffee,
-		Container,
-		Database,
-		FileCode,
-		FileCode2,
-		GitBranch,
-		Terminal,
-		Triangle,
-		Wrench
-	} from 'lucide-svelte';
+		siCplusplus,
+		siDocker,
+		siGit,
+		siJavascript,
+		siPython,
+		siRust,
+		siSvelte,
+		siTypescript,
+		siVercel
+	} from 'simple-icons';
 
 	const { skills }: { skills: Skill[] } = $props();
 
-	const ICON_BY_SKILL: Record<string, any> = {
-		'C++': Binary,
-		Rust: Wrench,
-		JavaScript: FileCode2,
-		TypeScript: Braces,
-		Python: FileCode,
-		Java: Coffee,
-		Git: GitBranch,
-		Docker: Container,
-		Bash: Terminal,
-		SQL: Database,
-		Vercel: Triangle
+	type SkillIcon = { type: 'brand'; icon: SimpleIcon } | { type: 'glyph'; icon: any };
+
+	const ICON_BY_SKILL: Record<string, SkillIcon> = {
+		'C++': { type: 'brand', icon: siCplusplus },
+		Rust: { type: 'brand', icon: siRust },
+		JavaScript: { type: 'brand', icon: siJavascript },
+		Svelte: { type: 'brand', icon: siSvelte },
+		TypeScript: { type: 'brand', icon: siTypescript },
+		Python: { type: 'brand', icon: siPython },
+		Java: { type: 'glyph', icon: Coffee },
+		Git: { type: 'brand', icon: siGit },
+		Docker: { type: 'brand', icon: siDocker },
+		Bash: { type: 'glyph', icon: Terminal },
+		SQL: { type: 'glyph', icon: Database },
+		Vercel: { type: 'brand', icon: siVercel }
 	};
 
-	const getSkillIcon = (name: string) => ICON_BY_SKILL[name] ?? Code2;
+	const getSkillIcon = (name: string): SkillIcon => {
+		return ICON_BY_SKILL[name] ?? { type: 'glyph', icon: Database };
+	};
 </script>
 
 <section class="skills" id="skills" aria-labelledby="skills-heading">
@@ -40,11 +44,18 @@
 
 		<ul class="skills-list">
 			{#each skills as skill (skill.name)}
-				{@const SkillIcon = getSkillIcon(skill.name)}
+				{@const skillIcon = getSkillIcon(skill.name)}
 				<li class="skill-item">
 					<div class="skill-chip">
 						<span class="skill-icon" aria-hidden="true">
-							<SkillIcon strokeWidth={1.85} />
+							{#if skillIcon.type === 'brand'}
+								<svg viewBox="0 0 24 24" class="brand-mark" aria-hidden="true" focusable="false">
+									<path d={skillIcon.icon.path}></path>
+								</svg>
+							{:else}
+								{@const SkillGlyph = skillIcon.icon}
+								<SkillGlyph strokeWidth={1.85} />
+							{/if}
 						</span>
 						<span class="skill-name">{skill.name}</span>
 					</div>
@@ -112,6 +123,10 @@
 		inline-size: 100%;
 		block-size: 100%;
 		display: block;
+	}
+
+	.brand-mark {
+		fill: currentColor;
 	}
 
 	.skill-name {
