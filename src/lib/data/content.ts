@@ -55,7 +55,7 @@ export const EDUCATION: Education[] = [
         startdate: 'Feb. 2022',
         enddate: 'Dec. 2025',
         bullets: [
-            'Relevant coursework: Algorithms & Data Structures, Operating Systems, Distributed Systems, Advanced Cyber Security, Parallel Computing, Artificial Intelligence, Computer Networks, Web & Database Computing.',
+            'Coursework included Algorithms & Data Structures, Operating Systems, Distributed Systems, Advanced Cyber Security, Parallel Computing, Artificial Intelligence, Computer Networks, Web & Database Computing.',
             'Tech eChallenge: team reached the final round (top 10 of 60+ teams) pitching a tech product to judges.',
             'Ravi\'s Study Program (RSP) 2026: three-month intensive DSA practice with live mock interviews.'
         ]
