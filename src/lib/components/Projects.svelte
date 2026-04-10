@@ -47,7 +47,7 @@
 		--projects-bullet-size: 0.9rem;
 		--projects-title-line-height: 1.1;
 		--timeline-marker-column: 1.6rem;
-		--timeline-content-gap: 0.8rem;
+		--timeline-content-gap: 0.7rem;
 		--timeline-dot-size: 0.7rem;
 		--timeline-rail-offset: calc(var(--projects-title-size) * 0.55);
 		padding-bottom: clamp(1.5rem, 4vh, 3rem);
@@ -177,7 +177,7 @@
 		margin-top: 0.38rem;
 	}
 
-	@media (max-width: 80rem) {
+	@media (max-width: 70rem) {
 		.project-header {
 			display: flex;
 			flex-direction: column;

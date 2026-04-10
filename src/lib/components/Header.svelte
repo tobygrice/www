@@ -113,19 +113,18 @@
 		--role-size: 1.1rem;
 		--introduction-size: 0.9rem;
 		--location-size: 0.9rem;
-		--social-size: 0.9rem;
 		--heading-size: 2rem;
 		--heading-line-height: 1.05;
 		--heading-line-size: calc(var(--heading-size) * var(--heading-line-height));
+		--control-button-size: 2.5rem;
+		--control-icon-size: calc(var(--control-button-size) * 0.4);
 		padding-top: var(--header-offset-top);
 		padding-bottom: var(--header-offset-bottom);
 	}
 
 	.header-content {
 		padding-top: var(--header-content-top);
-		display: flex;
-		align-items: flex-start;
-		gap: clamp(0.75rem, 2vw, 1.25rem);
+		position: relative;
 	}
 
 	.name-row {
@@ -134,23 +133,22 @@
 	}
 
 	.header-actions {
+		position: absolute;
+		inset-block-start: var(--header-content-top);
+		inset-inline-end: var(--content-gutter);
 		display: flex;
 		flex-direction: column;
-		gap: 0.75em;
-		flex-shrink: 0;
-		font-size: var(--social-size);
+		gap: 0.7rem;
 	}
 
 	.theme-toggle {
-		--theme-button-size: 2.75em;
-		--theme-icon-size: calc(var(--theme-button-size) * 0.4);
-		inline-size: var(--theme-button-size);
-		block-size: var(--theme-button-size);
+		inline-size: var(--control-button-size);
+		block-size: var(--control-button-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: 1px solid var(--theme-fg);
-		border-radius: calc(var(--theme-button-size) * 0.3);
+		border-radius: calc(var(--control-button-size) * 0.3);
 		background: var(--theme-fg);
 		color: var(--theme-bg);
 		opacity: 0.4;
@@ -173,8 +171,8 @@
 	.theme-toggle :global(svg) {
 		position: relative;
 		z-index: 1;
-		inline-size: var(--theme-icon-size);
-		block-size: var(--theme-icon-size);
+		inline-size: var(--control-icon-size);
+		block-size: var(--control-icon-size);
 	}
 
 	.bio {
@@ -183,6 +181,7 @@
 		align-items: flex-start;
 		flex: 1 1 auto;
 		min-inline-size: 0;
+		padding-inline-end: calc(var(--control-button-size) + 1rem);
 	}
 
 	h1 {
@@ -197,7 +196,7 @@
 	}
 
 	.role {
-		margin-top: 0.6em;
+		margin: 0.6em 0 0;
 		font-size: var(--role-size);
 		line-height: 1.2;
 		font-weight: 400;
@@ -238,22 +237,19 @@
 	.socials {
 		display: flex;
 		flex-direction: row;
-		gap: 0.75em;
+		gap: 0.7rem;
 		margin-top: 1.25em;
-		font-size: var(--social-size);
 	}
 
 	.social-button {
-		--social-button-size: 2.75em;
-		--social-icon-size: calc(var(--social-button-size) * 0.4);
 		position: relative;
-		inline-size: var(--social-button-size);
-		block-size: var(--social-button-size);
+		inline-size: var(--control-button-size);
+		block-size: var(--control-button-size);
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		border: 0;
-		border-radius: calc(var(--social-button-size) * 0.3);
+		border-radius: calc(var(--control-button-size) * 0.3);
 		background: transparent;
 		overflow: hidden;
 		opacity: 0.6;
@@ -306,8 +302,8 @@
 	.brand-icon {
 		position: relative;
 		z-index: 1;
-		inline-size: var(--social-icon-size);
-		block-size: var(--social-icon-size);
+		inline-size: var(--control-icon-size);
+		block-size: var(--control-icon-size);
 		display: block;
 		flex-shrink: 0;
 	}

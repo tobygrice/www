@@ -156,7 +156,7 @@
 		margin-top: 0.38rem;
 	}
 
-	@media (max-width: 80rem) {
+	@media (max-width: 70rem) {
 		.education-header {
 			display: flex;
 			flex-direction: column;

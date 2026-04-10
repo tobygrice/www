@@ -137,7 +137,7 @@
 		opacity: 0.9;
 	}
 
-	@media (max-width: 40rem) {
+	@media (max-width: 70rem) {
 		.skills-list {
 			gap: 0.55rem;
 		}

@@ -1,7 +1,14 @@
 <section class="footer" aria-label="Site footer">
 	<div class="content-shell footer-content">
 		<p>
-			Built with SvelteKit and Tailwind CSS, deployed with Vercel.<br />
+			Built with
+			<a href="https://kit.svelte.dev" target="_blank" rel="external noopener noreferrer">
+				SvelteKit
+			</a>, deployed with
+			<a href="https://vercel.com" target="_blank" rel="external noopener noreferrer"> Vercel </a>.
+			Coded in
+			<a href="https://zed.dev" target="_blank" rel="external noopener noreferrer">Zed</a>
+			by yours truly.<br />
 
 			Design inspired by
 			<a href="https://batuhan.tech" target="_blank" rel="external noopener noreferrer">
@@ -33,16 +40,18 @@
 		font-size: var(--footer-size);
 		line-height: 1.55;
 		text-align: center;
-		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.52);
+		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.5);
 	}
 
 	a {
-		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.8);
+		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.75);
+		text-decoration: none;
 		transition: color 200ms ease;
 	}
 
 	a:hover {
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
+		text-decoration: none;
 	}
 
 	a:focus-visible {
@@ -50,5 +59,6 @@
 		outline-offset: 3px;
 		border-radius: 0.2rem;
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
+		text-decoration: none;
 	}
 </style>
