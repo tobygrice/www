@@ -12,7 +12,6 @@ html {
     background: var(--theme-bg);
     color: var(--theme-fg);
     color-scheme: dark;
-    font-size: 90%;
 }
 
 html[data-theme='light'] {

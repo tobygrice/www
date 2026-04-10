@@ -1,40 +1,40 @@
 <script lang="ts">
 	import type { Skill } from '$lib/data/content';
-	import { Coffee, Database, Terminal } from 'lucide-svelte';
+	import { CircleQuestionMark, Coffee, Database, Terminal } from 'lucide-svelte';
+	import * as simpleIcons from 'simple-icons';
 	import type { SimpleIcon } from 'simple-icons';
-	import {
-		siCplusplus,
-		siDocker,
-		siGit,
-		siJavascript,
-		siPython,
-		siRust,
-		siSvelte,
-		siTypescript,
-		siVercel
-	} from 'simple-icons';
 
 	const { skills }: { skills: Skill[] } = $props();
 
-	type SkillIcon = { type: 'brand'; icon: SimpleIcon } | { type: 'glyph'; icon: any };
+	type SkillIcon =
+		| { type: 'simple-icons'; icon: SimpleIcon }
+		| { type: 'lucide'; icon: typeof CircleQuestionMark };
 
-	const ICON_BY_SKILL: Record<string, SkillIcon> = {
-		'C++': { type: 'brand', icon: siCplusplus },
-		Rust: { type: 'brand', icon: siRust },
-		JavaScript: { type: 'brand', icon: siJavascript },
-		Svelte: { type: 'brand', icon: siSvelte },
-		TypeScript: { type: 'brand', icon: siTypescript },
-		Python: { type: 'brand', icon: siPython },
-		Java: { type: 'glyph', icon: Coffee },
-		Git: { type: 'brand', icon: siGit },
-		Docker: { type: 'brand', icon: siDocker },
-		Bash: { type: 'glyph', icon: Terminal },
-		SQL: { type: 'glyph', icon: Database },
-		Vercel: { type: 'brand', icon: siVercel }
+	const LUCIDE_ICON_BY_NAME: Record<string, typeof CircleQuestionMark> = {
+		Coffee,
+		Database,
+		Terminal
+	};
+	const FALLBACK_LUCIDE_ICON = CircleQuestionMark;
+	const FALLBACK_SIMPLE_ICON = simpleIcons.siSimpleicons;
+
+	const isSimpleIcon = (value: unknown): value is SimpleIcon => {
+		return Boolean(value && typeof value === 'object' && 'path' in value);
 	};
 
-	const getSkillIcon = (name: string): SkillIcon => {
-		return ICON_BY_SKILL[name] ?? { type: 'glyph', icon: Database };
+	const getSkillIcon = (skill: Skill): SkillIcon => {
+		if (skill.iconPack === 'lucide') {
+			return {
+				type: 'lucide',
+				icon: LUCIDE_ICON_BY_NAME[skill.icon] ?? FALLBACK_LUCIDE_ICON
+			};
+		}
+
+		const icon = simpleIcons[skill.icon as keyof typeof simpleIcons];
+		return {
+			type: 'simple-icons',
+			icon: isSimpleIcon(icon) ? icon : FALLBACK_SIMPLE_ICON
+		};
 	};
 </script>
 
@@ -44,11 +44,11 @@
 
 		<ul class="skills-list">
 			{#each skills as skill (skill.name)}
-				{@const skillIcon = getSkillIcon(skill.name)}
+				{@const skillIcon = getSkillIcon(skill)}
 				<li class="skill-item">
 					<div class="skill-chip">
 						<span class="skill-icon" aria-hidden="true">
-							{#if skillIcon.type === 'brand'}
+							{#if skillIcon.type === 'simple-icons'}
 								<svg viewBox="0 0 24 24" class="brand-mark" aria-hidden="true" focusable="false">
 									<path d={skillIcon.icon.path}></path>
 								</svg>
