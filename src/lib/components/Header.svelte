@@ -2,10 +2,10 @@
 	import type { Bio, Contact } from '$lib/data/content';
 
 	import { Download, Mail, MapPin, Moon, Sun } from 'lucide-svelte';
-	import githubIcon from '$lib/assets/GitHub_White.svg';
+	import { siBluesky, siGithub } from 'simple-icons';
 	import linkedinIcon from '$lib/assets/Linkedin_White.svg';
+
 	import cvPdf from '$lib/assets/Tobias_Grice_CV.pdf';
-	const blueskyIcon = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Bluesky_Logo_White.svg';
 
 	const {
 		bio,
@@ -48,7 +48,9 @@
 					aria-label="GitHub"
 					class="social-button"
 				>
-					<img src={githubIcon} alt="" class="brand-icon" />
+					<svg viewBox="0 0 24 24" class="brand-mark" aria-hidden="true" focusable="false">
+						<path d={siGithub.path}></path>
+					</svg>
 				</a>
 
 				<a
@@ -68,7 +70,9 @@
 					aria-label="Bluesky"
 					class="social-button"
 				>
-					<img src={blueskyIcon} alt="" class="brand-icon" />
+					<svg viewBox="0 0 24 24" class="brand-mark" aria-hidden="true" focusable="false">
+						<path d={siBluesky.path}></path>
+					</svg>
 				</a>
 
 				<a href={`mailto:${contact.email}`} aria-label="Email" class="social-button">
@@ -113,7 +117,7 @@
 		--role-size: 1.1rem;
 		--introduction-size: 0.9rem;
 		--location-size: 0.9rem;
-		--heading-size: 2rem;
+		--heading-size: 2.1rem;
 		--heading-line-height: 1.05;
 		--heading-line-size: calc(var(--heading-size) * var(--heading-line-height));
 		--control-button-size: 2.5rem;
@@ -315,5 +319,9 @@
 
 	:global(html[data-theme='light']) .brand-icon {
 		filter: invert(1);
+	}
+
+	.brand-mark {
+		fill: currentColor;
 	}
 </style>
