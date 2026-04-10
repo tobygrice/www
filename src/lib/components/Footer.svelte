@@ -1,16 +1,8 @@
-<section
-	class="pt-[clamp(2.75rem,8vh,4.5rem)] pb-[clamp(1.75rem,5vh,3rem)]"
-	aria-label="Site footer"
->
+<section class="footer" aria-label="Site footer">
 	<div class="content-shell footer-content">
-		<p class="footer-copy">
+		<p>
 			Built using
-			<a
-				class="footer-link"
-				href="https://kit.svelte.dev"
-				target="_blank"
-				rel="external noopener noreferrer"
-			>
+			<a href="https://kit.svelte.dev" target="_blank" rel="external noopener noreferrer">
 				SvelteKit
 			</a>
 			and
@@ -22,41 +14,18 @@
 			>
 				Tailwind CSS
 			</a>, deployed with
-			<a
-				class="footer-link"
-				href="https://vercel.com"
-				target="_blank"
-				rel="external noopener noreferrer"
-			>
-				Vercel
-			</a>. Coded in
-			<a
-				class="footer-link"
-				href="https://zed.dev"
-				target="_blank"
-				rel="external noopener noreferrer"
-			>
-				Zed
-			</a>
+			<a href="https://vercel.com" target="_blank" rel="external noopener noreferrer"> Vercel </a>.
+			Coded in
+			<a href="https://zed.dev" target="_blank" rel="external noopener noreferrer">Zed</a>
 			by yours truly.<br />
 
 			Design inspired by
-			<a
-				class="footer-link"
-				href="https://batuhan.tech"
-				target="_blank"
-				rel="external noopener noreferrer"
-			>
+			<a href="https://batuhan.tech" target="_blank" rel="external noopener noreferrer">
 				batuhan.tech
 			</a>.<br />
 
 			Source code on
-			<a
-				class="footer-link"
-				href="https://github.com/tobygrice/www"
-				target="_blank"
-				rel="external noopener noreferrer"
-			>
+			<a href="https://github.com/tobygrice/www" target="_blank" rel="external noopener noreferrer">
 				GitHub
 			</a>.
 		</p>
@@ -64,34 +33,41 @@
 </section>
 
 <style>
+	.footer {
+		--footer-size: 0.8rem;
+		padding-block: clamp(2.75rem, 8vh, 4.5rem) clamp(1.75rem, 5vh, 3rem);
+	}
+
 	.footer-content {
 		display: flex;
 		justify-content: center;
 	}
 
-	.footer-copy {
+	p {
 		margin: 0;
 		max-inline-size: 40rem;
-		font-size: 0.8rem;
+		font-size: var(--footer-size);
 		line-height: 1.55;
 		text-align: center;
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.5);
 	}
 
-	.footer-link {
+	a {
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.75);
 		text-decoration: none;
 		transition: color 200ms ease;
 	}
 
-	.footer-link:hover {
+	a:hover {
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
+		text-decoration: none;
 	}
 
-	.footer-link:focus-visible {
+	a:focus-visible {
 		outline: 2px solid currentColor;
 		outline-offset: 3px;
 		border-radius: 0.2rem;
 		color: rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink));
+		text-decoration: none;
 	}
 </style>
