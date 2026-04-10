@@ -31,6 +31,10 @@ export type Education = {
     bullets: string[];
 };
 
+export type Skill = {
+    name: string;
+};
+
 export const BIO: Bio = {
     name: 'Toby Grice',
     role: 'Software Engineer',
@@ -60,6 +64,20 @@ export const EDUCATION: Education[] = [
             'Ravi\'s Study Program (RSP) 2026: three-month intensive DSA practice with live mock interviews.'
         ]
     }
+];
+
+export const SKILLS: Skill[] = [
+    { name: 'C++' },
+    { name: 'Rust' },
+    { name: 'JavaScript' },
+    { name: 'TypeScript' },
+    { name: 'Python' },
+    { name: 'Java' },
+    { name: 'Git' },
+    { name: 'Docker' },
+    { name: 'Bash' },
+    { name: 'SQL' },
+    { name: 'Vercel' }
 ];
 
 export const PROJECTS: Project[] = [
