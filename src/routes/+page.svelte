@@ -1,28 +1,26 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
+
 	import Footer from '$lib/components/Footer.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import Projects from '$lib/components/Projects.svelte';
+
 	import { BIO, CONTACT, PROJECTS } from '$lib/data/content';
-	import { onMount } from 'svelte';
 
 	type Theme = 'dark' | 'light';
 
-	const THEME_STORAGE_KEY = 'portfolio-theme';
-
-	const getThemeFromDocument = (): Theme => {
-		if (!browser) {
-			return 'dark';
-		}
-
-		return document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
-	};
+	const THEME_STORAGE_KEY = 'tobygrice-theme-a7d6ef';
 
 	let theme = $state<Theme>('dark');
 	let isThemeReady = $state(false);
 
 	onMount(() => {
-		theme = getThemeFromDocument();
+		if (!browser) {
+			theme = 'dark';
+		} else {
+			theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+		}
 		isThemeReady = true;
 	});
 
@@ -62,7 +60,7 @@
 		background: var(--theme-bg);
 		color: var(--theme-fg);
 		transition:
-			background-color 180ms ease,
-			color 180ms ease;
+			background-color 200ms ease,
+			color 200ms ease;
 	}
 </style>

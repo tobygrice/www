@@ -8,7 +8,7 @@
 				batuhan.tech
 			</a>.<br />
 
-			All source code on
+			Source code on
 			<a href="https://github.com/tobygrice/www" target="_blank" rel="external noopener noreferrer">
 				GitHub
 			</a>.
@@ -18,7 +18,7 @@
 
 <style>
 	.footer {
-		--footer-size: 0.8075rem;
+		--footer-size: 0.8rem;
 		padding-block: clamp(2.75rem, 8vh, 4.5rem) clamp(1.75rem, 5vh, 3rem);
 	}
 
@@ -29,7 +29,7 @@
 
 	p {
 		margin: 0;
-		max-inline-size: 42rem;
+		max-inline-size: 40rem;
 		font-size: var(--footer-size);
 		line-height: 1.55;
 		text-align: center;

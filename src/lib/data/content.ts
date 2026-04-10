@@ -1,6 +1,5 @@
 export type Bio = {
-    forename: string;
-    surname: string;
+    name: string;
     role: string;
     introduction: string;
     location: string;
@@ -23,8 +22,7 @@ export type Project = {
 };
 
 export const BIO: Bio = {
-    forename: 'Toby',
-    surname: 'Grice',
+    name: 'Toby Grice',
     role: 'Software Engineer',
     introduction: 'Recent computer science graduate with a passion for software development and network design.',
     location: 'Adelaide, Australia'

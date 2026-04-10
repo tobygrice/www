@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Mail, MapPin, Moon, Sun } from 'lucide-svelte';
-	import githubIcon from '$lib/assets/GitHub_White.svg';
-	import linkedinIcon from '$lib/assets/Linkedin_White.svg';
 	import type { Bio, Contact } from '$lib/data/content';
 
+	import { Download, Mail, MapPin, Moon, Sun } from 'lucide-svelte';
+	import githubIcon from '$lib/assets/GitHub_White.svg';
+	import linkedinIcon from '$lib/assets/Linkedin_White.svg';
+	import cvPdf from '$lib/assets/Tobias_Grice_CV.pdf';
 	const blueskyIcon = 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Bluesky_Logo_White.svg';
 
 	const {
@@ -27,20 +28,7 @@
 	<div class="content-shell header-content">
 		<div class="bio">
 			<div class="name-row">
-				<h1>{bio.forename} {bio.surname}</h1>
-				<button
-					type="button"
-					class="theme-toggle"
-					aria-label={themeButtonLabel}
-					title={themeButtonLabel}
-					onclick={onToggleTheme}
-				>
-					{#if theme === 'dark'}
-						<Sun strokeWidth={2} />
-					{:else}
-						<Moon strokeWidth={2} />
-					{/if}
-				</button>
+				<h1>{bio.name}</h1>
 			</div>
 			<p class="role">{bio.role}</p>
 			{#if bio.introduction}
@@ -88,6 +76,32 @@
 				</a>
 			</div>
 		</div>
+
+		<div class="header-actions">
+			<button
+				type="button"
+				class="theme-toggle"
+				aria-label={themeButtonLabel}
+				title={themeButtonLabel}
+				onclick={onToggleTheme}
+			>
+				{#if theme === 'dark'}
+					<Sun strokeWidth={2} />
+				{:else}
+					<Moon strokeWidth={2} />
+				{/if}
+			</button>
+
+			<a
+				class="social-button download-button"
+				href={cvPdf}
+				download="Tobias_Grice_CV.pdf"
+				aria-label="Download CV"
+				title="Download CV"
+			>
+				<Download strokeWidth={2} />
+			</a>
+		</div>
 	</div>
 </section>
 
@@ -109,22 +123,29 @@
 
 	.header-content {
 		padding-top: var(--header-content-top);
-	}
-
-	.name-row {
-		inline-size: 100%;
 		display: flex;
 		align-items: flex-start;
 		gap: clamp(0.75rem, 2vw, 1.25rem);
 	}
 
+	.name-row {
+		inline-size: 100%;
+		display: block;
+	}
+
+	.header-actions {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75em;
+		flex-shrink: 0;
+		font-size: var(--social-size);
+	}
+
 	.theme-toggle {
-		--theme-button-size: var(--heading-line-size);
-		--theme-icon-size: calc(var(--theme-button-size) * 0.45);
+		--theme-button-size: 2.75em;
+		--theme-icon-size: calc(var(--theme-button-size) * 0.4);
 		inline-size: var(--theme-button-size);
 		block-size: var(--theme-button-size);
-		margin-inline-start: auto;
-		flex-shrink: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -135,7 +156,8 @@
 		opacity: 0.4;
 		cursor: pointer;
 		box-sizing: border-box;
-		transition: opacity 180ms ease;
+		padding: 0;
+		transition: opacity 200ms ease;
 	}
 
 	.theme-toggle:hover {
@@ -159,6 +181,8 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
+		flex: 1 1 auto;
+		min-inline-size: 0;
 	}
 
 	h1 {
@@ -177,16 +201,16 @@
 		font-size: var(--role-size);
 		line-height: 1.2;
 		font-weight: 400;
-		opacity: 0.72;
+		opacity: 0.75;
 	}
 
 	.introduction {
 		margin: 0.7em 0 0;
-		max-inline-size: 60ch;
+		max-inline-size: 50ch;
 		font-size: var(--introduction-size);
 		line-height: 1.5;
 		font-weight: 400;
-		opacity: 0.68;
+		opacity: 0.7;
 	}
 
 	.location-row {
@@ -195,7 +219,7 @@
 		gap: 0.55em;
 		margin-top: 0.8em;
 		font-size: var(--location-size);
-		opacity: 0.58;
+		opacity: 0.6;
 	}
 
 	.location-row :global(svg) {
@@ -232,11 +256,11 @@
 		border-radius: calc(var(--social-button-size) * 0.3);
 		background: transparent;
 		overflow: hidden;
-		opacity: 0.52;
+		opacity: 0.6;
 		color: inherit;
 		text-decoration: none;
 		box-sizing: border-box;
-		transition: opacity 180ms ease;
+		transition: opacity 200ms ease;
 	}
 
 	.social-button::before,
@@ -250,14 +274,14 @@
 
 	.social-button::before {
 		border: 1px solid currentColor;
-		opacity: 0.26;
-		transition: opacity 180ms ease;
+		opacity: 0.25;
+		transition: opacity 200ms ease;
 	}
 
 	.social-button::after {
 		background: currentColor;
 		opacity: 0;
-		transition: opacity 180ms ease;
+		transition: opacity 200ms ease;
 	}
 
 	.social-button:hover {
@@ -290,7 +314,7 @@
 
 	.brand-icon {
 		object-fit: contain;
-		opacity: 0.82;
+		opacity: 0.8;
 	}
 
 	:global(html[data-theme='light']) .brand-icon {

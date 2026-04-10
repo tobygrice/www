@@ -111,7 +111,7 @@
 		border-radius: 50%;
 		background-color: var(--theme-bg);
 		box-sizing: border-box;
-		transition: background-color 180ms ease;
+		transition: background-color 200ms ease;
 	}
 
 	.timeline-dot::after {
@@ -121,7 +121,7 @@
 		border: 2px solid rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.2);
 		border-radius: 50%;
 		box-sizing: border-box;
-		transition: border-color 180ms ease;
+		transition: border-color 200ms ease;
 	}
 
 	.project-header {
@@ -137,7 +137,7 @@
 		line-height: var(--projects-title-line-height);
 		font-weight: 600;
 		letter-spacing: -0.01em;
-		opacity: 0.92;
+		opacity: 0.9;
 	}
 
 	.project-year {
@@ -145,7 +145,7 @@
 		flex-shrink: 0;
 		font-size: var(--projects-year-size);
 		font-weight: 400;
-		opacity: 0.56;
+		opacity: 0.55;
 		white-space: nowrap;
 	}
 
@@ -156,7 +156,7 @@
 		line-height: 1.35;
 		font-weight: 400;
 		font-style: italic;
-		opacity: 0.62;
+		opacity: 0.6;
 	}
 
 	.project-bullets {
