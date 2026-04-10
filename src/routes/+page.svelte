@@ -4,9 +4,10 @@
 
 	import Footer from '$lib/components/Footer.svelte';
 	import Header from '$lib/components/Header.svelte';
+	import Education from '$lib/components/Education.svelte';
 	import Projects from '$lib/components/Projects.svelte';
 
-	import { BIO, CONTACT, PROJECTS } from '$lib/data/content';
+	import { BIO, CONTACT, EDUCATION, PROJECTS } from '$lib/data/content';
 
 	type Theme = 'dark' | 'light';
 
@@ -50,6 +51,7 @@
 
 <main class="page">
 	<Header bio={BIO} contact={CONTACT} {theme} onToggleTheme={toggleTheme} />
+	<Education education={EDUCATION} />
 	<Projects projects={PROJECTS} />
 	<Footer />
 </main>

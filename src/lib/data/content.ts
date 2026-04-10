@@ -21,10 +21,21 @@ export type Project = {
     link?: string;
 };
 
+export type Education = {
+    institution: string;
+    gpa: number;
+    gpa_max: number;
+    title: string;
+    startdate: string;
+    enddate: string;
+    bullets: string[];
+};
+
 export const BIO: Bio = {
     name: 'Toby Grice',
     role: 'Software Engineer',
-    introduction: 'Recent computer science graduate with a passion for software development and network design.',
+    introduction:
+        'Recent computer science graduate with a passion for software development and network design.',
     location: 'Adelaide, Australia'
 };
 
@@ -34,6 +45,22 @@ export const CONTACT: Contact = {
     linkedin: 'https://www.linkedin.com/in/tobygrice',
     bluesky: 'https://bsky.app/profile/tobygrice.com'
 };
+
+export const EDUCATION: Education[] = [
+    {
+        institution: 'University of Adelaide',
+        gpa: 6.4,
+        gpa_max: 7.0,
+        title: 'Bachelor of Computer Science (Distributed Systems & Networking)',
+        startdate: 'Feb. 2022',
+        enddate: 'Dec. 2025',
+        bullets: [
+            'Relevant coursework: Algorithms & Data Structures, Operating Systems, Distributed Systems, Advanced Cyber Security, Parallel Computing, Artificial Intelligence, Computer Networks, Web & Database Computing.',
+            'Tech eChallenge: team reached the final round (top 10 of 60+ teams) pitching a tech product to judges.',
+            'Ravi\'s Study Program (RSP) 2026: three-month intensive DSA practice with live mock interviews.'
+        ]
+    }
+];
 
 export const PROJECTS: Project[] = [
     {
