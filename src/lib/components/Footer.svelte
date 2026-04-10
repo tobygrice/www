@@ -1,7 +1,7 @@
 <section class="footer" aria-label="Site footer">
 	<div class="content-shell footer-content">
 		<p>
-			Built with Sveltekit and Tailwind CSS, deployed with Vercel.<br />
+			Built with SvelteKit and Tailwind CSS, deployed with Vercel.<br />
 
 			Design inspired by
 			<a href="https://batuhan.tech" target="_blank" rel="external noopener noreferrer">

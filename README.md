@@ -1,6 +1,6 @@
 # tobygrice.com
 
-Portfolio website written in svelte / sveltekit. Deployed using vercel.
+Portfolio built with Svelte / SvelteKit. Deployed using Vercel.
 
 ## About the project
 
