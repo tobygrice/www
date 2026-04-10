@@ -41,7 +41,7 @@
 <style>
 	.projects {
 		--projects-label-size: 0.7rem;
-		--projects-title-size: 1.15rem;
+		--projects-title-size: 1.1rem;
 		--projects-year-size: 0.8rem;
 		--projects-subtitle-size: 0.95rem;
 		--projects-bullet-size: 0.9rem;

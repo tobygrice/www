@@ -1,7 +1,7 @@
 <section class="footer" aria-label="Site footer">
 	<div class="content-shell footer-content">
 		<p>
-			Built with
+			Built using
 			<a href="https://kit.svelte.dev" target="_blank" rel="external noopener noreferrer">
 				SvelteKit
 			</a>, deployed with

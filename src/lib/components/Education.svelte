@@ -46,7 +46,7 @@
 <style>
 	.education {
 		--education-label-size: 0.7rem;
-		--education-title-size: 1.15rem;
+		--education-title-size: 1.1rem;
 		--education-meta-size: 0.8rem;
 		--education-institution-size: 0.95rem;
 		--education-bullet-size: 0.9rem;
