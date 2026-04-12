@@ -65,3 +65,11 @@ body {
 	padding-inline: var(--content-gutter);
 	box-sizing: border-box;
 }
+
+.__ma-cursor-dot {
+	box-shadow: 0 0 10px rgb(var(--theme-ink) var(--theme-ink) var(--theme-ink) / 0.35);
+}
+
+.__ma-cursor-ring {
+	display: none !important;
+}

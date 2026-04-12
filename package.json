@@ -39,6 +39,7 @@
 	"dependencies": {
 		"@vercel/analytics": "^2.0.1",
 		"lucide-svelte": "^1.0.1",
+		"mouse-animations": "^0.3.0",
 		"simple-icons": "^16.15.0"
 	}
 }

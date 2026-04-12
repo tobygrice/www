@@ -1,6 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
+	import CursorEffect from '$lib/components/CursorEffect.svelte';
 
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
@@ -10,4 +11,5 @@
 </script>
 
 <svelte:head><link rel="icon" href={favicon} /></svelte:head>
+<CursorEffect />
 {@render children()}
