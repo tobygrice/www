@@ -21,19 +21,12 @@ html {
 	color-scheme: light;
 }
 
-html[data-theme='light'] {
-	--theme-ink: 0;
-	color-scheme: light;
-}
-
-html[data-theme='dark'] {
-	--theme-ink: 255;
-	color-scheme: dark;
-}
-
 @media (prefers-color-scheme: dark) {
-	html:not([data-theme]) {
+	:root {
 		--theme-ink: 255;
+	}
+
+	html {
 		color-scheme: dark;
 	}
 }
