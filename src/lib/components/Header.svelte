@@ -27,7 +27,7 @@
 <section class="pt-[clamp(2.5rem,7vh,5rem)] pb-[clamp(0.75rem,2vh,1.5rem)]">
 	<div class="content-shell relative pt-[clamp(1.5rem,4.5vh,3.5rem)]">
 		<div class="flex min-w-0 flex-1 flex-col items-start pr-14">
-			<h1 class="m-0 text-[2.1rem] leading-[1.05] font-semibold tracking-[-0.04em] opacity-95">
+			<h1 class="m-0 text-[2.1rem] leading-[1.05] font-semibold tracking-[-0.02em] opacity-95">
 				{bio.name}
 			</h1>
 			<p class="mt-[0.66rem] mb-0 text-[1.1rem] leading-[1.2] font-normal opacity-75">{bio.role}</p>
@@ -122,6 +122,7 @@
 			<a
 				href="/cv"
 				class="social-button"
+				target="_blank"
 				aria-label="Download CV"
 				title="Download CV"
 			>
