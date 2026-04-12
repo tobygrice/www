@@ -20,12 +20,19 @@
 		private points: LineTrailPoint[] = [];
 		private rafId: number | null = null;
 		private active = false;
-		private color: [number, number, number];
+		private lastTime = 0;
 
+		private pointerX = 0;
+		private pointerY = 0;
+		private hasPointer = false;
+
+		private readonly color: [number, number, number];
 		private readonly width: number;
 		private readonly maxPoints: number;
 		private readonly decay: number;
 		private readonly glow: number;
+		private readonly pointSpacing = 8;
+
 		private readonly canvas: HTMLCanvasElement;
 		private readonly ctx: CanvasRenderingContext2D;
 
@@ -50,32 +57,23 @@
 
 			this.onResize();
 			window.addEventListener('resize', this.onResize);
+			document.addEventListener('visibilitychange', this.onVisibilityChange);
+
 			this.enable();
 		}
 
 		private addPoint(x: number, y: number) {
 			this.points.push({ x, y, life: 1 });
+
 			if (this.points.length > this.maxPoints) {
 				this.points.splice(0, this.points.length - this.maxPoints);
 			}
 		}
 
-		private onPointerMove = (event: MouseEvent) => {
-			const latest = this.points.at(-1);
-			if (!latest) {
-				this.addPoint(event.clientX, event.clientY);
-				return;
-			}
-
-			const dx = event.clientX - latest.x;
-			const dy = event.clientY - latest.y;
-			const distance = Math.hypot(dx, dy);
-			const steps = Math.max(1, Math.min(6, Math.floor(distance / 10)));
-
-			for (let index = 1; index <= steps; index += 1) {
-				const progress = index / steps;
-				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
-			}
+		private onPointerMove = (event: PointerEvent) => {
+			this.pointerX = event.clientX;
+			this.pointerY = event.clientY;
+			this.hasPointer = true;
 		};
 
 		private onResize = () => {
@@ -83,12 +81,58 @@
 			this.canvas.width = Math.floor(window.innerWidth * dpr);
 			this.canvas.height = Math.floor(window.innerHeight * dpr);
 			this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+			// Resize clears the bitmap, so also clear any stale trail state.
+			this.points = [];
+			this.lastTime = 0;
 		};
 
-		private loop = () => {
-			if (!this.active) {
+		private onVisibilityChange = () => {
+			// Reset trail state when tab visibility changes so the effect
+			// does not resume from stale timing/input state.
+			this.points = [];
+			this.lastTime = 0;
+			this.hasPointer = false;
+			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+		};
+
+		private spawnPointsTowardPointer() {
+			if (!this.hasPointer) return;
+
+			const latest = this.points.at(-1);
+
+			if (!latest) {
+				this.addPoint(this.pointerX, this.pointerY);
 				return;
 			}
+
+			const dx = this.pointerX - latest.x;
+			const dy = this.pointerY - latest.y;
+			const distance = Math.hypot(dx, dy);
+
+			if (distance < this.pointSpacing) return;
+
+			const steps = Math.floor(distance / this.pointSpacing);
+
+			for (let index = 1; index <= steps; index += 1) {
+				const travelled = index * this.pointSpacing;
+				const progress = travelled / distance;
+
+				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
+			}
+		}
+
+		private loop = (now: number) => {
+			if (!this.active) return;
+
+			if (!this.lastTime) {
+				this.lastTime = now;
+			}
+
+			const dt = Math.min(32, now - this.lastTime);
+			this.lastTime = now;
+
+			this.spawnPointsTowardPointer();
 
 			const { ctx, points } = this;
 			ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -105,12 +149,14 @@
 				for (let index = 1; index < points.length; index += 1) {
 					const previous = points[index - 1];
 					const current = points[index];
+
+					const segmentLength = Math.hypot(current.x - previous.x, current.y - previous.y);
+					if (segmentLength < 0.5) continue;
+
 					const progress = index / (points.length - 1);
 					const alpha = Math.min(previous.life, current.life) * progress;
 
-					if (alpha <= 0) {
-						continue;
-					}
+					if (alpha <= 0) continue;
 
 					ctx.globalAlpha = alpha;
 					ctx.lineWidth = Math.max(1, this.width * progress);
@@ -124,8 +170,10 @@
 				ctx.shadowBlur = 0;
 			}
 
+			// decay is treated as "life lost per frame at 60fps"
+			const decayPerSecond = this.decay * 60;
 			for (const point of points) {
-				point.life -= this.decay;
+				point.life -= decayPerSecond * (dt / 1000);
 			}
 
 			this.points = points.filter((point) => point.life > 0);
@@ -133,22 +181,19 @@
 		};
 
 		enable() {
-			if (this.active) {
-				return;
-			}
+			if (this.active) return;
 
 			this.active = true;
-			document.addEventListener('mousemove', this.onPointerMove);
+			this.lastTime = 0;
+			document.addEventListener('pointermove', this.onPointerMove, { passive: true });
 			this.rafId = requestAnimationFrame(this.loop);
 		}
 
 		disable() {
-			if (!this.active) {
-				return;
-			}
+			if (!this.active) return;
 
 			this.active = false;
-			document.removeEventListener('mousemove', this.onPointerMove);
+			document.removeEventListener('pointermove', this.onPointerMove);
 
 			if (this.rafId !== null) {
 				cancelAnimationFrame(this.rafId);
@@ -156,12 +201,15 @@
 			}
 
 			this.points = [];
+			this.hasPointer = false;
+			this.lastTime = 0;
 			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 		}
 
 		destroy() {
 			this.disable();
 			window.removeEventListener('resize', this.onResize);
+			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 			this.canvas.remove();
 		}
 	}
