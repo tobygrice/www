@@ -85,6 +85,35 @@
 			this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		};
 
+		private drawSmoothPath(points: LineTrailPoint[]) {
+			const first = points[0];
+			if (!first) {
+				return;
+			}
+
+			const { ctx } = this;
+			ctx.beginPath();
+			ctx.moveTo(first.x, first.y);
+
+			if (points.length === 2) {
+				const last = points[1];
+				ctx.lineTo(last.x, last.y);
+				return;
+			}
+
+			for (let index = 1; index < points.length - 1; index += 1) {
+				const current = points[index];
+				const next = points[index + 1];
+				const midpointX = (current.x + next.x) / 2;
+				const midpointY = (current.y + next.y) / 2;
+				ctx.quadraticCurveTo(current.x, current.y, midpointX, midpointY);
+			}
+
+			const penultimate = points[points.length - 2];
+			const last = points[points.length - 1];
+			ctx.quadraticCurveTo(penultimate.x, penultimate.y, last.x, last.y);
+		}
+
 		private loop = () => {
 			if (!this.active) {
 				return;
@@ -98,29 +127,31 @@
 
 				ctx.lineCap = 'round';
 				ctx.lineJoin = 'round';
-				ctx.strokeStyle = `rgb(${red} ${green} ${blue})`;
 				ctx.shadowColor = `rgba(${red}, ${green}, ${blue}, 0.45)`;
 				ctx.shadowBlur = this.glow;
+				ctx.lineWidth = this.width;
 
-				for (let index = 1; index < points.length; index += 1) {
-					const previous = points[index - 1];
-					const current = points[index];
-					const progress = index / (points.length - 1);
-					const alpha = Math.min(previous.life, current.life) * progress;
+				const oldestPoint = points[0];
+				const newestPoint = points[points.length - 1];
+				const trailGradient = ctx.createLinearGradient(
+					oldestPoint.x,
+					oldestPoint.y,
+					newestPoint.x,
+					newestPoint.y
+				);
+				trailGradient.addColorStop(
+					0,
+					`rgba(${red}, ${green}, ${blue}, ${Math.max(0.05, oldestPoint.life * 0.25)})`
+				);
+				trailGradient.addColorStop(
+					1,
+					`rgba(${red}, ${green}, ${blue}, ${Math.max(0.5, newestPoint.life)})`
+				);
+				ctx.strokeStyle = trailGradient;
 
-					if (alpha <= 0) {
-						continue;
-					}
+				this.drawSmoothPath(points);
+				ctx.stroke();
 
-					ctx.globalAlpha = alpha;
-					ctx.lineWidth = Math.max(1, this.width * progress);
-					ctx.beginPath();
-					ctx.moveTo(previous.x, previous.y);
-					ctx.lineTo(current.x, current.y);
-					ctx.stroke();
-				}
-
-				ctx.globalAlpha = 1;
 				ctx.shadowBlur = 0;
 			}
 
@@ -223,10 +254,10 @@
 
 			trail = new LineTrail({
 				color: colors.rgb,
-				width: 3.4,
-				maxPoints: 36,
-				decay: 0.038,
-				glow: 8
+				width: 5,
+				maxPoints: 50,
+				decay: 0.2,
+				glow: 10
 			});
 		};
 
