@@ -5,14 +5,14 @@
 	type LineTrailPoint = {
 		x: number;
 		y: number;
+		life: number;
 	};
 
 	type LineTrailOptions = {
 		color: [number, number, number];
 		width: number;
 		maxPoints: number;
-		headEase: number;
-		followEase: number;
+		decay: number;
 		glow: number;
 	};
 
@@ -20,28 +20,20 @@
 		private points: LineTrailPoint[] = [];
 		private rafId: number | null = null;
 		private active = false;
-		private lastFrameTime: number | null = null;
 		private color: [number, number, number];
-		private hasPointer = false;
-		private pointerX = 0;
-		private pointerY = 0;
-		private viewportWidth = 0;
-		private viewportHeight = 0;
 
 		private readonly width: number;
 		private readonly maxPoints: number;
-		private readonly headEase: number;
-		private readonly followEase: number;
+		private readonly decay: number;
 		private readonly glow: number;
 		private readonly canvas: HTMLCanvasElement;
 		private readonly ctx: CanvasRenderingContext2D;
 
-		constructor({ color, width, maxPoints, headEase, followEase, glow }: LineTrailOptions) {
+		constructor({ color, width, maxPoints, decay, glow }: LineTrailOptions) {
 			this.color = color;
 			this.width = width;
 			this.maxPoints = maxPoints;
-			this.headEase = headEase;
-			this.followEase = followEase;
+			this.decay = decay;
 			this.glow = glow;
 
 			this.canvas = document.createElement('canvas');
@@ -58,118 +50,85 @@
 
 			this.onResize();
 			window.addEventListener('resize', this.onResize);
-			document.addEventListener('visibilitychange', this.onVisibilityChange);
 			this.enable();
 		}
 
-		private resetPoints(x: number, y: number) {
-			this.points = Array.from({ length: this.maxPoints }, () => ({ x, y }));
+		private addPoint(x: number, y: number) {
+			this.points.push({ x, y, life: 1 });
+			if (this.points.length > this.maxPoints) {
+				this.points.splice(0, this.points.length - this.maxPoints);
+			}
 		}
 
 		private onPointerMove = (event: MouseEvent) => {
-			this.pointerX = event.clientX;
-			this.pointerY = event.clientY;
-
-			if (!this.hasPointer) {
-				this.hasPointer = true;
-				this.resetPoints(this.pointerX, this.pointerY);
+			const latest = this.points.at(-1);
+			if (!latest) {
+				this.addPoint(event.clientX, event.clientY);
 				return;
+			}
+
+			const dx = event.clientX - latest.x;
+			const dy = event.clientY - latest.y;
+			const distance = Math.hypot(dx, dy);
+			const steps = Math.max(1, Math.min(6, Math.floor(distance / 10)));
+
+			for (let index = 1; index <= steps; index += 1) {
+				const progress = index / steps;
+				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
 			}
 		};
 
 		private onResize = () => {
 			const dpr = Math.max(1, window.devicePixelRatio || 1);
-			this.viewportWidth = window.innerWidth;
-			this.viewportHeight = window.innerHeight;
-			this.canvas.width = Math.floor(this.viewportWidth * dpr);
-			this.canvas.height = Math.floor(this.viewportHeight * dpr);
+			this.canvas.width = Math.floor(window.innerWidth * dpr);
+			this.canvas.height = Math.floor(window.innerHeight * dpr);
 			this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		};
 
-		private onVisibilityChange = () => {
-			this.lastFrameTime = null;
-
-			if (!document.hidden && this.hasPointer) {
-				this.resetPoints(this.pointerX, this.pointerY);
-			}
-		};
-
-		private updatePoints(frameDelta: number) {
-			if (!this.hasPointer || this.points.length === 0) {
-				return;
-			}
-
-			const head = this.points[0];
-			const headEase = Math.min(1, this.headEase * frameDelta);
-			head.x += (this.pointerX - head.x) * headEase;
-			head.y += (this.pointerY - head.y) * headEase;
-
-			for (let index = 1; index < this.points.length; index += 1) {
-				const previous = this.points[index - 1];
-				const point = this.points[index];
-				const taper = Math.max(0.35, 1 - index / (this.points.length * 1.2));
-				const ease = Math.min(1, this.followEase * taper * frameDelta);
-
-				point.x += (previous.x - point.x) * ease;
-				point.y += (previous.y - point.y) * ease;
-			}
-		}
-
-		private drawTrail() {
-			if (this.points.length < 3) {
-				return;
-			}
-
-			const [red, green, blue] = this.color;
-			const { ctx, points } = this;
-			const maxIndex = points.length - 2;
-
-			ctx.lineCap = 'round';
-			ctx.lineJoin = 'round';
-			ctx.strokeStyle = `rgb(${red} ${green} ${blue})`;
-			ctx.shadowColor = `rgba(${red}, ${green}, ${blue}, 0.3)`;
-			ctx.shadowBlur = this.glow;
-
-			for (let index = maxIndex; index >= 1; index -= 1) {
-				const previous = points[index + 1];
-				const current = points[index];
-				const next = points[index - 1];
-				const startX = (previous.x + current.x) / 2;
-				const startY = (previous.y + current.y) / 2;
-				const endX = (current.x + next.x) / 2;
-				const endY = (current.y + next.y) / 2;
-				const progress = 1 - index / maxIndex;
-				const alpha = Math.pow(progress, 1.6);
-
-				if (alpha <= 0.01) {
-					continue;
-				}
-
-				ctx.globalAlpha = alpha;
-				ctx.lineWidth = Math.max(0.75, this.width * progress);
-				ctx.beginPath();
-				ctx.moveTo(startX, startY);
-				ctx.quadraticCurveTo(current.x, current.y, endX, endY);
-				ctx.stroke();
-			}
-
-			ctx.globalAlpha = 1;
-			ctx.shadowBlur = 0;
-		}
-
-		private loop = (timestamp: number) => {
+		private loop = () => {
 			if (!this.active) {
 				return;
 			}
 
-			const frameDelta =
-				this.lastFrameTime === null ? 1 : (timestamp - this.lastFrameTime) / (1000 / 60);
-			const normalizedFrameDelta = Math.min(2.5, Math.max(0, frameDelta));
-			this.lastFrameTime = timestamp;
+			const { ctx, points } = this;
+			ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-			this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
-			this.updatePoints(normalizedFrameDelta);
-			this.drawTrail();
+			if (points.length > 1) {
+				const [red, green, blue] = this.color;
+
+				ctx.lineCap = 'round';
+				ctx.lineJoin = 'round';
+				ctx.strokeStyle = `rgb(${red} ${green} ${blue})`;
+				ctx.shadowColor = `rgba(${red}, ${green}, ${blue}, 0.45)`;
+				ctx.shadowBlur = this.glow;
+
+				for (let index = 1; index < points.length; index += 1) {
+					const previous = points[index - 1];
+					const current = points[index];
+					const progress = index / (points.length - 1);
+					const alpha = Math.min(previous.life, current.life) * progress;
+
+					if (alpha <= 0) {
+						continue;
+					}
+
+					ctx.globalAlpha = alpha;
+					ctx.lineWidth = Math.max(1, this.width * progress);
+					ctx.beginPath();
+					ctx.moveTo(previous.x, previous.y);
+					ctx.lineTo(current.x, current.y);
+					ctx.stroke();
+				}
+
+				ctx.globalAlpha = 1;
+				ctx.shadowBlur = 0;
+			}
+
+			for (const point of points) {
+				point.life -= this.decay;
+			}
+
+			this.points = points.filter((point) => point.life > 0);
 			this.rafId = requestAnimationFrame(this.loop);
 		};
 
@@ -179,7 +138,6 @@
 			}
 
 			this.active = true;
-			this.lastFrameTime = null;
 			document.addEventListener('mousemove', this.onPointerMove);
 			this.rafId = requestAnimationFrame(this.loop);
 		}
@@ -197,16 +155,13 @@
 				this.rafId = null;
 			}
 
-			this.lastFrameTime = null;
-			this.hasPointer = false;
 			this.points = [];
-			this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
+			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 		}
 
 		destroy() {
 			this.disable();
 			window.removeEventListener('resize', this.onResize);
-			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 			this.canvas.remove();
 		}
 	}
@@ -258,18 +213,20 @@
 			const colors = themeColors[theme];
 
 			cursor = new CustomCursor({
+				innerSize: 10,
+				outerSize: 30,
 				innerColor: colors.solid,
 				outerColor: 'transparent',
+				smoothness: 0.22,
 				hideDefault: true
 			});
 
 			trail = new LineTrail({
 				color: colors.rgb,
-				width: 12,
-				maxPoints: 100,
-				headEase: 10,
-				followEase: 4.9,
-				glow: 4
+				width: 8,
+				maxPoints: 36,
+				decay: 0.04,
+				glow: 5
 			});
 		};
 
