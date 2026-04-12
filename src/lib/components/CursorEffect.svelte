@@ -119,6 +119,10 @@
 
 				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
 			}
+
+			// Ensure the trail head is anchored to the cursor center even when
+			// interpolation step size does not divide the movement distance.
+			this.addPoint(this.pointerX, this.pointerY);
 		}
 
 		private loop = (now: number) => {
@@ -271,7 +275,7 @@
 
 			trail = new LineTrail({
 				color: colors.rgb,
-				width: 8,
+				width: 10,
 				maxPoints: 50,
 				decay: 0.2,
 				glow: 5,
