@@ -64,12 +64,10 @@ export const EDUCATION: Education[] = [
         gpa: 6.4,
         gpa_max: 7.0,
         title: 'Bachelor of Computer Science (Distributed Systems & Networking)',
-        startdate: 'Feb. 2022',
-        enddate: 'Dec. 2025',
+        startdate: '2022',
+        enddate: '2025',
         bullets: [
-            'Coursework included Algorithms & Data Structures, Operating Systems, Distributed Systems, Advanced Cyber Security, Parallel Computing, Artificial Intelligence, Computer Networks, Web & Database Computing.',
-            'Tech eChallenge: team reached the final round (top 10 of 60+ teams) pitching a tech product to judges.',
-            "Ravi's Study Program (RSP) 2026: three-month intensive DSA practice with live mock interviews."
+
         ]
     }
 ];
