@@ -31,6 +31,16 @@ html {
 	}
 }
 
+html[data-theme='light'] {
+	--theme-ink: 0;
+	color-scheme: light;
+}
+
+html[data-theme='dark'] {
+	--theme-ink: 255;
+	color-scheme: dark;
+}
+
 body {
 	margin: 0;
 	padding: 0;
