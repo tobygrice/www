@@ -52,7 +52,7 @@ export const BIO: Bio = {
 };
 
 export const CONTACT: Contact = {
-    email: 'tobygrice@icloud.com',
+    email: 'contact@tobygrice.com',
     github: 'https://github.com/tobygrice',
     linkedin: 'https://www.linkedin.com/in/tobygrice',
     bluesky: 'https://bsky.app/profile/tobygrice.com'
