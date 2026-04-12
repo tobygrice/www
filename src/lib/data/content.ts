@@ -47,7 +47,7 @@ export const BIO: Bio = {
     name: 'Toby Grice',
     role: 'Software Engineer',
     introduction:
-        'Recent computer science graduate with a passion for backend development and reliable software.',
+        'Recent computer science graduate with a passion for backend development and all things retro.',
     location: 'Adelaide, Australia'
 };
 
