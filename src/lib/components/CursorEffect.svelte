@@ -140,7 +140,6 @@
 				ctx.lineJoin = 'round';
 				ctx.strokeStyle = `rgb(${red} ${green} ${blue})`;
 				ctx.shadowColor = `rgba(${red}, ${green}, ${blue}, 0.45)`;
-				ctx.shadowBlur = this.glow;
 
 				for (let index = 1; index < points.length; index += 1) {
 					const previous = points[index - 1];
@@ -154,6 +153,8 @@
 
 					if (alpha <= 0) continue;
 
+					const isHeadSegment = index === points.length - 1;
+					ctx.shadowBlur = isHeadSegment ? 0 : this.glow;
 					ctx.globalAlpha = alpha;
 					ctx.lineWidth = Math.max(1, this.width * progress);
 					ctx.beginPath();
@@ -267,7 +268,7 @@
 
 			trail = new LineTrail({
 				color: colors.rgb,
-				width: 10,
+				width: 8,
 				maxPoints: 500,
 				decay: 0.2,
 				glow: 5
