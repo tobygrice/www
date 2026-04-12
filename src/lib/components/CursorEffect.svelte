@@ -14,6 +14,7 @@
 		maxPoints: number;
 		decay: number;
 		glow: number;
+		pointSpacing?: number;
 	};
 
 	class LineTrail {
@@ -31,16 +32,18 @@
 		private readonly maxPoints: number;
 		private readonly decay: number;
 		private readonly glow: number;
+		private readonly pointSpacing: number;
 
 		private readonly canvas: HTMLCanvasElement;
 		private readonly ctx: CanvasRenderingContext2D;
 
-		constructor({ color, width, maxPoints, decay, glow }: LineTrailOptions) {
+		constructor({ color, width, maxPoints, decay, glow, pointSpacing = 1.5 }: LineTrailOptions) {
 			this.color = color;
 			this.width = width;
 			this.maxPoints = maxPoints;
 			this.decay = decay;
 			this.glow = glow;
+			this.pointSpacing = pointSpacing;
 
 			this.canvas = document.createElement('canvas');
 			this.canvas.style.cssText =
@@ -109,9 +112,9 @@
 			const dy = this.pointerY - latest.y;
 			const distance = Math.hypot(dx, dy);
 
-			if (distance < 1) return;
+			if (distance < this.pointSpacing) return;
 
-			for (let index = 1; index <= distance; index += 1) {
+			for (let index = this.pointSpacing; index <= distance; index += this.pointSpacing) {
 				const progress = index / distance;
 
 				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
@@ -269,9 +272,10 @@
 			trail = new LineTrail({
 				color: colors.rgb,
 				width: 8,
-				maxPoints: 500,
+				maxPoints: 50,
 				decay: 0.2,
-				glow: 5
+				glow: 5,
+				pointSpacing: 4
 			});
 		};
 
