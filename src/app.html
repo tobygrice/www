@@ -6,17 +6,14 @@
 		<script>
 			(() => {
 				const themeStorageKey = 'tobygrice-theme-a7d6ef';
-				let theme = 'dark';
 
 				try {
 					const storedTheme = localStorage.getItem(themeStorageKey);
 
 					if (storedTheme === 'light' || storedTheme === 'dark') {
-						theme = storedTheme;
+						document.documentElement.dataset.theme = storedTheme;
 					}
 				} catch {}
-
-				document.documentElement.dataset.theme = theme;
 			})();
 		</script>
 		%sveltekit.head%

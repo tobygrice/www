@@ -9,26 +9,60 @@
 	import Projects from '$lib/components/Projects.svelte';
 
 	import { BIO, CONTACT, EDUCATION, PROJECTS, SKILLS } from '$lib/data/content';
-	import { siPortableappsdotcom } from 'simple-icons';
 
 	type Theme = 'dark' | 'light';
 
 	const THEME_STORAGE_KEY = 'tobygrice-theme-a7d6ef';
 
-	let theme = $state<Theme>('dark');
+	let theme = $state<Theme>('light');
 	let isThemeReady = $state(false);
+	let hasExplicitTheme = $state(false);
+
+	const getSystemTheme = (prefersDark: boolean): Theme => (prefersDark ? 'dark' : 'light');
 
 	onMount(() => {
 		if (!browser) {
-			theme = 'dark';
-		} else {
-			theme = document.documentElement.dataset.theme === 'light' ? 'light' : 'dark';
+			theme = 'light';
+			isThemeReady = true;
+			return;
 		}
+
+		const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+		const syncWithSystemTheme = () => {
+			if (!hasExplicitTheme) {
+				theme = getSystemTheme(mediaQuery.matches);
+			}
+		};
+
+		try {
+			const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+
+			if (storedTheme === 'light' || storedTheme === 'dark') {
+				theme = storedTheme;
+				hasExplicitTheme = true;
+			} else {
+				syncWithSystemTheme();
+			}
+		} catch {
+			syncWithSystemTheme();
+		}
+
+		const handleSystemThemeChange = () => {
+			syncWithSystemTheme();
+		};
+
+		mediaQuery.addEventListener('change', handleSystemThemeChange);
 		isThemeReady = true;
+
+		return () => {
+			mediaQuery.removeEventListener('change', handleSystemThemeChange);
+		};
 	});
 
 	const toggleTheme = () => {
 		theme = theme === 'dark' ? 'light' : 'dark';
+		hasExplicitTheme = true;
 	};
 
 	if (browser) {
@@ -37,10 +71,21 @@
 				return;
 			}
 
-			document.documentElement.dataset.theme = theme;
+			if (hasExplicitTheme) {
+				document.documentElement.dataset.theme = theme;
+
+				try {
+					localStorage.setItem(THEME_STORAGE_KEY, theme);
+				} catch {
+					// Ignore storage failures in restricted browser environments.
+				}
+				return;
+			}
+
+			delete document.documentElement.dataset.theme;
 
 			try {
-				localStorage.setItem(THEME_STORAGE_KEY, theme);
+				localStorage.removeItem(THEME_STORAGE_KEY);
 			} catch {
 				// Ignore storage failures in restricted browser environments.
 			}
