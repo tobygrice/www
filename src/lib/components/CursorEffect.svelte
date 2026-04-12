@@ -20,6 +20,7 @@
 		private points: LineTrailPoint[] = [];
 		private rafId: number | null = null;
 		private active = false;
+		private lastFrameTime: number | null = null;
 		private color: [number, number, number];
 
 		private readonly width: number;
@@ -50,6 +51,7 @@
 
 			this.onResize();
 			window.addEventListener('resize', this.onResize);
+			document.addEventListener('visibilitychange', this.onVisibilityChange);
 			this.enable();
 		}
 
@@ -85,10 +87,18 @@
 			this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 		};
 
-		private loop = () => {
+		private onVisibilityChange = () => {
+			this.lastFrameTime = null;
+		};
+
+		private loop = (timestamp: number) => {
 			if (!this.active) {
 				return;
 			}
+
+			const frameDelta = this.lastFrameTime === null ? 1 : (timestamp - this.lastFrameTime) / (1000 / 60);
+			const normalizedFrameDelta = Math.min(3, Math.max(0, frameDelta));
+			this.lastFrameTime = timestamp;
 
 			const { ctx, points } = this;
 			ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -125,7 +135,7 @@
 			}
 
 			for (const point of points) {
-				point.life -= this.decay;
+				point.life -= this.decay * normalizedFrameDelta;
 			}
 
 			this.points = points.filter((point) => point.life > 0);
@@ -138,6 +148,7 @@
 			}
 
 			this.active = true;
+			this.lastFrameTime = null;
 			document.addEventListener('mousemove', this.onPointerMove);
 			this.rafId = requestAnimationFrame(this.loop);
 		}
@@ -155,6 +166,7 @@
 				this.rafId = null;
 			}
 
+			this.lastFrameTime = null;
 			this.points = [];
 			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 		}
@@ -162,6 +174,7 @@
 		destroy() {
 			this.disable();
 			window.removeEventListener('resize', this.onResize);
+			document.removeEventListener('visibilitychange', this.onVisibilityChange);
 			this.canvas.remove();
 		}
 	}
@@ -213,19 +226,18 @@
 			const colors = themeColors[theme];
 
 			cursor = new CustomCursor({
-				innerSize: 8,
-				outerSize: 30,
+				innerSize: 12,
+				outerSize: 20,
 				innerColor: colors.solid,
 				outerColor: 'transparent',
-				smoothness: 0.22,
 				hideDefault: true
 			});
 
 			trail = new LineTrail({
 				color: colors.rgb,
-				width: 3.4,
-				maxPoints: 36,
-				decay: 0.1,
+				width: 10,
+				maxPoints: 50,
+				decay: 0.2,
 				glow: 8
 			});
 		};
