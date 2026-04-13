@@ -22,6 +22,8 @@
 		private rafId: number | null = null;
 		private active = false;
 		private lastTime = 0;
+		private viewportWidth = 0;
+		private viewportHeight = 0;
 
 		private pointerX = 0;
 		private pointerY = 0;
@@ -80,8 +82,11 @@
 
 		private onResize = () => {
 			const dpr = Math.max(1, window.devicePixelRatio || 1);
-			this.canvas.width = Math.floor(window.innerWidth * dpr);
-			this.canvas.height = Math.floor(window.innerHeight * dpr);
+			const rect = this.canvas.getBoundingClientRect();
+			this.viewportWidth = Math.max(1, rect.width);
+			this.viewportHeight = Math.max(1, rect.height);
+			this.canvas.width = Math.round(this.viewportWidth * dpr);
+			this.canvas.height = Math.round(this.viewportHeight * dpr);
 			this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
 			// Resize clears the bitmap, so also clear any stale trail state.
@@ -95,7 +100,7 @@
 			this.points = [];
 			this.lastTime = 0;
 			this.hasPointer = false;
-			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
 		};
 
 		private spawnPointsTowardPointer() {
@@ -138,7 +143,7 @@
 			this.spawnPointsTowardPointer();
 
 			const { ctx, points } = this;
-			ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
 
 			if (points.length > 1) {
 				const [red, green, blue] = this.color;
@@ -207,7 +212,7 @@
 			this.points = [];
 			this.hasPointer = false;
 			this.lastTime = 0;
-			this.ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+			this.ctx.clearRect(0, 0, this.viewportWidth, this.viewportHeight);
 		}
 
 		destroy() {
