@@ -31,17 +31,11 @@ export type Education = {
     bullets: string[];
 };
 
-export type Skill =
-    | {
-        name: string;
-        iconPack: 'simple-icons';
-        icon: `si${string}`;
-    }
-    | {
-        name: string;
-        iconPack: 'lucide';
-        icon: string;
-    };
+export type Skill = {
+    name: string;
+    iconPack: 'simple-icons' | 'lucide';
+    icon: string;
+};
 
 export const BIO: Bio = {
     name: 'Toby Grice',
