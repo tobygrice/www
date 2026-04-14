@@ -10,4 +10,4 @@ I also wanted my CV to be pulled from a live source and served as a static file.
 
 Once this was set up, I just added a /cv route that pulls the latest release from GitHub and serves it a static file. Now, www.tobygrice.com/cv always points to my latest CV.
 
-This was a challenging project, but I enjoyed building it - I am happy with the end result.
+This was a challenging project, but I enjoyed building it - I am happy with the end result. Hopefully, you like it too!
