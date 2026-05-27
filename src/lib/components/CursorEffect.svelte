@@ -117,16 +117,16 @@
 			const dy = this.pointerY - latest.y;
 			const distance = Math.hypot(dx, dy);
 
-			if (distance < this.pointSpacing) return;
+			if (distance === 0) return;
 
-			for (let index = this.pointSpacing; index <= distance; index += this.pointSpacing) {
+			for (let index = this.pointSpacing; index < distance; index += this.pointSpacing) {
 				const progress = index / distance;
 
 				this.addPoint(latest.x + dx * progress, latest.y + dy * progress);
 			}
 
-			// Ensure the trail head is anchored to the cursor center even when
-			// interpolation step size does not divide the movement distance.
+			// Always anchor the trail head to the cursor center; spacing is only
+			// used to fill longer movements smoothly.
 			this.addPoint(this.pointerX, this.pointerY);
 		}
 
