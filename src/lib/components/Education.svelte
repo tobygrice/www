@@ -2,10 +2,6 @@
 	import type { Education } from '$lib/data/content';
 
 	const { education }: { education: Education[] } = $props();
-
-	const formatGpa = (value: number): string => {
-		return Number.isInteger(value) ? value.toFixed(1) : value.toString();
-	};
 </script>
 
 <section class="pb-[clamp(1.5rem,4vh,3rem)]" id="education" aria-labelledby="education-heading">
@@ -23,9 +19,6 @@
 							</div>
 							<div class="education-meta">
 								<p class="education-year">{entry.startdate} – {entry.enddate}</p>
-								<p class="education-gpa">
-									GPA {formatGpa(entry.gpa)} / {formatGpa(entry.gpa_max)}
-								</p>
 							</div>
 						</header>
 
@@ -106,17 +99,12 @@
 		text-align: right;
 	}
 
-	.education-year,
-	.education-gpa {
+	.education-year {
 		margin: 0;
 		font-size: 0.8rem;
 		font-weight: 400;
 		white-space: nowrap;
 		opacity: 0.55;
-	}
-
-	.education-gpa {
-		margin-top: 0.35rem;
 	}
 
 	.education-bullets {
@@ -157,18 +145,8 @@
 			order: 2;
 		}
 
-		.education-year,
-		.education-gpa {
+		.education-year {
 			white-space: normal;
-		}
-
-		.education-gpa {
-			margin-top: 0;
-		}
-
-		.education-gpa::before {
-			content: '|';
-			margin-right: 0.45rem;
 		}
 	}
 </style>

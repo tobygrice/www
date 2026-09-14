@@ -23,8 +23,6 @@ export type Project = {
 
 export type Education = {
     institution: string;
-    gpa: number;
-    gpa_max: number;
     title: string;
     startdate: string;
     enddate: string;
@@ -55,8 +53,6 @@ export const CONTACT: Contact = {
 export const EDUCATION: Education[] = [
     {
         institution: 'University of Adelaide',
-        gpa: 5.5,
-        gpa_max: 7.0,
         title: 'Bachelor of Computer Science (Distributed Systems & Networking)',
         startdate: '2022',
         enddate: '2025',
